@@ -2,12 +2,93 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Is</title>
+  <title>Login</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    }
+    td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    }
+    tr:nth-child(even) {
+    background-color: #dddddd;
+    }
+    </style>
 </head>
 <body>
   <app-root></app-root>
-</body>
+  <script type="text/javascript">
+    function isThaichar(str,obj){
+        var isThai=true;
+        var orgi_text=" ๅภถุึคตจขชๆไำพะัีรนยบลฃฟหกดเ้่าสวงผปแอิืทมใฝ๑๒๓๔ู฿๕๖๗๘๙๐ฎฑธํ๊ณฯญฐฅฤฆฏโฌ็๋ษศซฉฮฺ์ฒฬฦ";
+        var chk_text=str.split("");
+        chk_text.filter(function(s){        
+            if(orgi_text.indexOf(s)==-1){
+                isThai=false;
+                obj.value=str.replace(RegExp(s, "g"),'');
+            }           
+        }); 
+        return isThai; 
+    }
+    </script>
+    <script type="text/javascript">
+      function isNumberchar(str,obj){
+          var isNnumber=true;
+          var orgi_text="1234567890";
+          var chk_text=str.split("");
+          chk_text.filter(function(s){        
+              if(orgi_text.indexOf(s)==-1){
+                isNnumber=false;
+                  obj.value=str.replace(RegExp(s, "g"),'');
+              }           
+          }); 
+          return isNnumber; 
+      }
+      </script>
+    <script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("table");
+        switching = true;
+        dir = "asc";
+        while (switching) {
+          switching = false;
+          rows = table.getElementsByTagName("TR");
+          for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("TD")[n];
+            y = rows[i + 1].getElementsByTagName("TD")[n];
+            if (dir == "asc") {
+              if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                shouldSwitch= true;
+                break;
+              }
+            } else if (dir == "desc") {
+              if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                shouldSwitch= true;
+                break;
+              }
+            }
+          }
+          if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            switchcount ++;
+          } else {
+            if (switchcount == 0 && dir == "asc") {
+              dir = "desc";
+              switching = true;
+            }
+          }
+        }
+      }
+    </script>
+  </body>
 </html>
