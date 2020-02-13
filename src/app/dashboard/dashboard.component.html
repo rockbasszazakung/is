@@ -1,0 +1,182 @@
+<div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="text-center" > </h2>
+        <br />
+        <button class="btn btn-outline-primary"  (click)="addUser()">เพิ่มข้อมูล</button>
+        <br />
+        <br />
+          <div class="bs-example">
+            <form>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="input-group">
+                          <span class="input-group-text">
+                            เลขบัตรประชาชน
+                        </span>    
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                          <div class="input-group-append">
+                            <span class="input-group-text">เพศ</span>
+                          </div>            
+                          <!-- <select name="SEX" formControlName="SEX" autocomplete="off" class="form-control input-sm">
+                            <option value="" selected disabled>เพศ</option>
+                            <option value="M">ชาย</option>
+                            <option value="F">หญิง</option>
+                          </select> -->
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">หมู่โลหิต</span>
+                            </div>
+                            <!-- <select name="BLOOD" formControlName="BLOOD" autocomplete="off" class="form-control input-sm">
+                              <option value="" selected disabled>หมู่โลหิต</option>
+                              <option value="1">เอ</option>
+                              <option value="2">บี</option>
+                              <option value="3">เอบี</option>
+                              <option value="4">โอ</option>
+                          </select> -->
+                        </div>
+                    </div>
+                </div>
+           
+       
+        <br />
+        
+         
+              <div class="row">
+                  <div class="col-sm-3">
+                      <div class="input-group">
+                        <span class="input-group-text">
+                          คำนำหน้า
+                      </span>    
+                      <!-- <select  name="TITLE" formControlName="TITLE" autocomplete="off" class="form-control input-sm" >
+                        <option value="" selected disabled>คำนำหน้าชื่อ</option>
+                        <option value="1">นาย</option>
+                        <option value="2">นาง</option>
+                        <option value="3">นางสาว</option>
+                    </select> -->
+                      </div>
+                  </div>
+                  <div class="col-sm-4">
+                      <div class="input-group">
+                        <div class="input-group-append">
+                          <span class="input-group-text">ชื่อตัวไทย</span>
+                        </div>            
+                          <input type="text" class="form-control">
+                          
+                      </div>
+                  </div>
+                  <div class="col-sm-5">
+                      <div class="input-group">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text">ชื่อสกุลไทย</span>
+                          </div>
+                          <input type="text" class="form-control">
+                      </div>
+                  </div>
+              </div>
+        
+      
+      <br />
+        
+       
+              <div class="row">
+                  <div class="col-sm-4">
+                      <div class="input-group">
+                        <span class="input-group-text">
+                          วันเกิด จาก
+                      </span>    
+                          <input type="text" class="form-control">
+                      </div>
+                  </div>
+                  <div class="col-sm-4">
+                      <div class="input-group">
+                        <div class="input-group-append">
+                          <span class="input-group-text">ถึง</span>
+                        </div>            
+                          <input type="text" class="form-control">
+                          
+                      </div>
+                  </div>
+                  <div class="col-sm-4">
+                      <div class="input-group">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text">จำนวนรายการ/หน้า</span>
+                          </div>
+                          <input type="text" class="form-control">
+                      </div>
+                  </div>
+              </div>
+          
+      
+      <br />
+        
+         
+              <div class="row">
+                  <div class="col-sm-4">
+                      <div class="input-group"> 
+                      <button type="button" class="btn btn-outline-primary">Primary</button>
+                      </div>
+                  </div>
+                  <div class="col-sm-4">
+                      <div class="input-group">
+                        <button type="reset" class="btn btn-outline-primary">ล้างข้อมูล</button>
+                          
+                      </div>
+                  </div>
+                  <div class="col-sm-4">
+                      <div class="input-group">
+                        <button type="button" class="btn btn-outline-primary">Primary</button>
+                      </div>
+                  </div>
+              </div>
+          </form>
+          </div>
+        <br />
+        <div class="mat-elevation-z8">
+          <table id="table" class="table table-striped">
+            <thead class="table-primary">
+            <tr>
+              <th>ลำดับ</th>
+              <th></th>
+              <!-- <th>id</th> -->
+              <th>เลขบัตรประชาชน</th>
+              <th>คำนำหน้า</th>
+              <th onclick="sortTable(0)">ชื่อตัวไทย</th>
+              <th onclick="sortTable(0)">ชื่อสกุลไทย</th>
+              <th>เพศ</th>
+              <th>หมู่โลหิต</th>
+              <th>วันเกิด</th>
+              <th>รายละเอียด</th>
+            </tr>
+            </thead>
+
+            <tbody >
+            <tr *ngFor="let user of users ;let i = index" >
+              <td>{{i+1}}</td>
+              <td></td>
+              <!-- <td>{{user.id}}</td> -->
+              <td>{{user.CITIZEN_ID}}</td>
+              <td>{{user.TITLE}}</td>
+              <td>{{user.FIRST_NAME}}</td>
+              <td>{{user.LAST_NAME}}</td>
+              <td>{{user.SEX}}</td>
+              <td>{{user.BLOOD}}</td>
+              <td>{{user.BIRTH_DATE|date:'dd/MM/yyyy'}}</td>
+              <td>  <button class="btn btn-outline-info" (click)="updateUser(user)" style="margin-left: 20px;"> Edit</button></td>
+            </tr>
+            </tbody>
+            <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
+          </table>
+        <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
+        </div> 
+      </div>
+    </div>
+  </div>

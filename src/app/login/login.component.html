@@ -1,0 +1,14 @@
+<div class="login-form">
+    <form form [formGroup]="angForm" (ngSubmit)="postdata(angForm)" autocomplete="off">
+        <h3 class="text-center">IS - Intern System</h3>   
+        <div class="form-group has-error">
+        <input type="text" class="form-control" name="username" formControlName="username" autocomplete="off" placeholder="ชื่อผู้ใช้" required="required">
+        </div>
+		<div class="form-group">
+            <input type="password" class="form-control" name="password" formControlName="password"  autocomplete="off" placeholder="รหัสผ่าน" required="required">
+        </div>        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-lg btn-block" [disabled]="!angForm.valid">เข้าสู่ระบบ</button>
+        </div>
+    </form>
+</div>
