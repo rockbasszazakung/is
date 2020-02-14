@@ -14,7 +14,7 @@
                           <span class="input-group-text">
                             เลขบัตรประชาชน
                         </span>    
-                            <input type="text" class="form-control">
+                            <input type="text"  class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-3">
@@ -68,7 +68,7 @@
                         <div class="input-group-append">
                           <span class="input-group-text">ชื่อตัวไทย</span>
                         </div>            
-                          <input type="text" class="form-control">
+                          <input name="CITIZEN_ID" id="CITIZEN_ID" type="text"  class="form-control"  onkeyup="myFunction()">
                           
                       </div>
                   </div>
@@ -116,8 +116,7 @@
           
       
       <br />
-        
-         
+      <input type="text"  placeholder="Search for names.." title="Type in a name">
               <div class="row">
                   <div class="col-sm-4">
                       <div class="input-group"> 
@@ -139,7 +138,7 @@
           </form>
           </div>
         <br />
-        <div class="mat-elevation-z8">
+        
           <table id="table" class="table table-striped">
             <thead class="table-primary">
             <tr>
@@ -160,7 +159,7 @@
             <tbody >
             <tr *ngFor="let user of users ;let i = index" >
               <td>{{i+1}}</td>
-              <td></td>
+              <td><input type="checkbox" name="delete[]"></td>
               <!-- <td>{{user.id}}</td> -->
               <td>{{user.CITIZEN_ID}}</td>
               <td>{{user.TITLE}}</td>
@@ -176,7 +175,15 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
           </table>
         <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
-        </div> 
+        <div class="d-flex justify-content-between p-2">
+          <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize">
+          </ngb-pagination>
+        
+          <select class="custom-select" style="width: auto" [(ngModel)]="pageSize">
+            <option [ngValue]="2">2 items per page</option>
+            <option [ngValue]="4">4 items per page</option>
+            <option [ngValue]="6">6 items per page</option>
+          </select>
       </div>
     </div>
   </div>

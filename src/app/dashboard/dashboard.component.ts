@@ -1,38 +1,65 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, PipeTransform } from '@angular/core';
 import { DataserviceService } from '../dataservice.service';
 import { Usermodule } from '../usermodule';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { DecimalPipe } from '@angular/common';
 // import {MatPaginator} from '@angular/material/paginator';
 // import {MatTableDataSource} from '@angular/material/table';
  
+
+interface user {
+    CITIZEN_ID: string;
+    TITLE: string;
+    FIRST_NAME: string;
+    LAST_NAME: string;
+    SEX: string;
+    BLOOD: string;
+    BIRTH_DATE: string;
+}
+// function search(text: string, pipe: PipeTransform): user[] {
+//   return Usermodule.filter(user => {
+//     const term = text.toLowerCase();
+//     return user.CITIZEN_ID.toLowerCase().includes(term)
+//         || pipe.transform(user.TITLE).includes(term)
+//         || pipe.transform(user.FIRST_NAME).includes(term)
+//         || pipe.transform(user.LAST_NAME).includes(term)
+//         || pipe.transform(user.SEX).includes(term)
+//         || pipe.transform(user.BIRTH_DATE).includes(term)
+//         || pipe.transform(user.BLOOD).includes(term);
+//   });
+// }
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-// export class TablePaginationExample implements OnInit {
-//   displayedColumns: string[] = ['CITIZEN_ID', 'TITLE', 'FIRST_NAME', 'LAST_NAME','SEX','BLOOD','BIRTH_DATE'];
-//   dataSource = new MatTableDataSource<PeriodicElement>();
 
-//   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-//   ngOnInit() {
-//     this.dataSource.paginator = this.paginator;
-//   }
-// }
-// export interface PeriodicElement {
-//   CITIZEN_ID: string;
-//   TITLE: string;
-//   FIRST_NAME: string;
-//   LAST_NAME: string;
-//   SEX: string;
-//   BLOOD: string;
-//   BIRTH_DATE: string;
-// }
 export class DashboardComponent implements OnInit {
   users: Usermodule[];
   cat:number;
- 
+
+  page = 1;
+  pageSize = 4;
+  collectionSize = Usermodule.length;
+
+  get countries(): user[] {
+    return Usermodule
+      .map((user, i) => ({id: i + 1, ...user}))
+      .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
+  }
+  // countries$: Observable<user[]>;
+  // filter = new FormControl('');
+
+  // constructor(pipe: DecimalPipe) {
+  //   this.countries$ = this.filter.valueChanges.pipe(
+  //     startWith(''),
+  //     map(text => search(text, pipe))
+  //   );
+  // }
+
   constructor(private dataService: DataserviceService,private router:Router) { }
  
   ngOnInit() {
