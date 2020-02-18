@@ -9,6 +9,7 @@ export class Usermodule {
     public BIRTH_DATE:string;
   static map: any;
   static filter: any;
+  isSelected: any;
     
  
     constructor(CITIZEN_ID:string,TITLE: string,FIRST_NAME:string,LAST_NAME:string,SEX:string,BLOOD:string,BIRTH_DATE:string,id:number) {

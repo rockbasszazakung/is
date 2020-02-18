@@ -36,8 +36,8 @@ public updateuserdetails(id,CITIZEN_ID,TITLE,FIRST_NAME,LAST_NAME,SEX,BLOOD,BIRT
       }));
  
 }
-removeEmployee(CITIZEN_ID: number): Observable<Usermodule[]> {
-  return this.httpClient.delete<Usermodule[]>(this.baseUrl+'/deletedata.php?CITIZEN_ID='+CITIZEN_ID );
+removeEmployee(id: number): Observable<Usermodule[]> {
+  return this.httpClient.delete<Usermodule[]>(this.baseUrl+'/deletedata.php?id='+id );
 }
 public getUserId(id: number): Observable<Usermodule[]>
   {

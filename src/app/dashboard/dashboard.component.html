@@ -14,7 +14,7 @@
                           <span class="input-group-text">
                             เลขบัตรประชาชน
                         </span>    
-                            <input type="text"  class="form-control">
+                            <input name="CITIZEN_ID" id="CITIZEN_ID" type="text"  class="form-control" onkeyup="myFunction3()">
                         </div>
                     </div>
                     <div class="col-sm-3">
@@ -44,11 +44,7 @@
                         </div>
                     </div>
                 </div>
-           
-       
         <br />
-        
-         
               <div class="row">
                   <div class="col-sm-3">
                       <div class="input-group">
@@ -68,7 +64,7 @@
                         <div class="input-group-append">
                           <span class="input-group-text">ชื่อตัวไทย</span>
                         </div>            
-                          <input name="CITIZEN_ID" id="CITIZEN_ID" type="text"  class="form-control"  onkeyup="myFunction()">
+                          <input name="FIRST_NAME" id="FIRST_NAME" type="text"  class="form-control"  onkeyup="myFunction()">
                           
                       </div>
                   </div>
@@ -77,17 +73,13 @@
                           <div class="input-group-prepend">
                               <span class="input-group-text">ชื่อสกุลไทย</span>
                           </div>
-                          <input type="text" class="form-control">
+                          <input name="LAST_NAME" id="LAST_NAME" type="text" class="form-control" onkeyup="myFunction2()">
                       </div>
                   </div>
               </div>
-        
-      
       <br />
-        
-       
               <div class="row">
-                  <div class="col-sm-4">
+                  <div class="col-sm-6">
                       <div class="input-group">
                         <span class="input-group-text">
                           วันเกิด จาก
@@ -95,7 +87,7 @@
                           <input type="text" class="form-control">
                       </div>
                   </div>
-                  <div class="col-sm-4">
+                  <div class="col-sm-6">
                       <div class="input-group">
                         <div class="input-group-append">
                           <span class="input-group-text">ถึง</span>
@@ -104,46 +96,34 @@
                           
                       </div>
                   </div>
-                  <div class="col-sm-4">
-                      <div class="input-group">
-                          <div class="input-group-prepend">
-                              <span class="input-group-text">จำนวนรายการ/หน้า</span>
-                          </div>
-                          <input type="text" class="form-control">
-                      </div>
-                  </div>
               </div>
-          
-      
       <br />
               <div class="row">
-                  <div class="col-sm-4">
-                      <div class="input-group"> 
-                      <button type="button" class="btn btn-outline-primary">Primary</button>
-                      </div>
-                  </div>
                   <div class="col-sm-4">
                       <div class="input-group">
                         <button type="reset" class="btn btn-outline-primary">ล้างข้อมูล</button>
                           
                       </div>
                   </div>
-                  <div class="col-sm-4">
-                      <div class="input-group">
-                        <button type="button" class="btn btn-outline-primary">Primary</button>
-                      </div>
-                  </div>
               </div>
           </form>
           </div>
         <br />
-        
-          <table id="table" class="table table-striped">
+        <form [formGroup]="form" (ngSubmit)="submitForm()" novalidate>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="input-group">
+                <button type="submit" value="Submit" class="btn btn-outline-danger">ลบ</button>
+              </div>
+          </div>
+          
+          </div>
+          <br />
+          <table id="table" datatable  class="table table-striped">
             <thead class="table-primary">
             <tr>
               <th>ลำดับ</th>
               <th></th>
-              <!-- <th>id</th> -->
               <th>เลขบัตรประชาชน</th>
               <th>คำนำหน้า</th>
               <th>ชื่อตัวไทย</th>
@@ -154,12 +134,10 @@
               <th>รายละเอียด</th>
             </tr>
             </thead>
-
             <tbody >
             <tr *ngFor="let user of users ;let i = index" >
               <td>{{i+1}}</td>
-              <td><input type="checkbox" name="delete[]"></td>
-              <!-- <td>{{user.id}}</td> -->
+              <td><input type="checkbox" [value]="user.id" (change)="onCheckboxChange($event)"/></td>
               <td>{{user.CITIZEN_ID}}</td>
               <td>{{user.TITLE}}</td>
               <td>{{user.FIRST_NAME}}</td>
@@ -167,22 +145,11 @@
               <td>{{user.SEX}}</td>
               <td>{{user.BLOOD}}</td>
               <td>{{user.BIRTH_DATE|date:'dd/MM/yyyy'}}</td>
-              <td>  <button class="btn btn-outline-info" (click)="updateUser(user)" style="margin-left: 20px;"> Edit</button></td>
+              <td><button class="btn btn-outline-info" (click)="updateUser(user)" style="margin-left: 20px;">Edit</button></td>
             </tr>
             </tbody>
-            <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
           </table>
-        <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
-        <div class="d-flex justify-content-between p-2">
-          <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize">
-          </ngb-pagination>
-        
-          <select class="custom-select" style="width: auto" [(ngModel)]="pageSize">
-            <option [ngValue]="2">2 items per page</option>
-            <option [ngValue]="4">4 items per page</option>
-            <option [ngValue]="6">6 items per page</option>
-          </select>
-      </div>
+        <!-- <input type="submit" value="Submit"> -->
+      </form>
     </div>
   </div>
