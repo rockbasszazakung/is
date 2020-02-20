@@ -1,24 +1,25 @@
+import { Usermodule } from './../usermodule';
 import { Component, OnInit, ViewChild, PipeTransform } from '@angular/core';
 import { DataserviceService } from '../dataservice.service';
-import { Usermodule } from '../usermodule';
+// import { Usermodule } from '../usermodule';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { FormControl, FormArray, FormGroup, FormBuilder } from '@angular/forms';
-import { DecimalPipe } from '@angular/common';
+// import { DecimalPipe } from '@angular/common';
 // import {MatPaginator} from '@angular/material/paginator';
 // import {MatTableDataSource} from '@angular/material/table';
  
 
-interface user {
-    CITIZEN_ID: string;
-    TITLE: string;
-    FIRST_NAME: string;
-    LAST_NAME: string;
-    SEX: string;
-    BLOOD: string;
-    BIRTH_DATE: string;
-}
+// interface user {
+//     CITIZEN_ID: string;
+//     TITLE: string;
+//     FIRST_NAME: string;
+//     LAST_NAME: string;
+//     SEX: string;
+//     BLOOD: string;
+//     BIRTH_DATE: string;
+// }
 // function search(text: string, pipe: PipeTransform): user[] {
 //   return Usermodule.filter(user => {
 //     const term = text.toLowerCase();
@@ -38,68 +39,33 @@ interface user {
 })
 
 export class DashboardComponent implements OnInit {
-  users: Usermodule[];
-  cat:number;
-  page = 1;
-  pageSize = 4;
-  collectionSize = Usermodule.length;
-  checkedList: string;
-  get countries(): user[] {
-    return Usermodule
-      .map((user, i) => ({id: i + 1, ...user}))
-      .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
-  }
-  // countries$: Observable<user[]>;
-  // filter = new FormControl('');
-  // constructor(pipe: DecimalPipe) {
-  //   this.countries$ = this.filter.valueChanges.pipe(
-  //     startWith(''),
-  //     map(text => search(text, pipe))
-  //   );
-  // }
+  dtOptions: DataTables.Settings = {};
   form: FormGroup;
+  userDat: Usermodule;
+  // BLOOD : [{'name':'A','code':1},{'name':'B','code':2}];
+  // title = this.users;
   constructor(private fb: FormBuilder,private dataService: DataserviceService,private router:Router) {
     this.form = this.fb.group({
       checkArray: this.fb.array([])
     })
    }
   ngOnInit() {
-    this.getuserdetails();
+    
+    this.getuserdetails()
+        
+      
+     
+// console.log(this.users);
  
   }
 getuserdetails()
 {
-  this.dataService.getAllUsers(this.cat).subscribe(response =>
-    {
-      this.users = response.map(item =>
-      {
-        return new Usermodule(
-            item.CITIZEN_ID,
-            item.TITLE,
-            item.FIRST_NAME,
-            item.LAST_NAME,
-            item.SEX,
-            item.BLOOD,
-            item.BIRTH_DATE,
-            item.id
-        );
-      });
-    });
+  this.dataService.getAllUsers()
+  .subscribe( data => {
+  this.userDat = data;
+  });
+ 
 }
-// log = '';
-
-//   logCheckbox(element: HTMLInputElement): void {
-//     this.log += `Checkbox ${element.value} was ${element.checked ? '' : 'un'}checked\n`;
-//     console.log(this.log);
-//   }
-// getCheckedItemList(){
-//   this.users = [];
-//   for (var i = 0; i < this.users.length; i++) {
-//     if(this.users[i].isSelected)
-//     this.users.push(this.users[i]);
-//   }
-//   this.checkedList = JSON.stringify(this.users);
-// }
 onCheckboxChange(e) {
   const checkArray: FormArray = this.form.get('checkArray') as FormArray;
   if (e.target.checked) {
@@ -126,8 +92,8 @@ submitForm() {
 deleteuserdetails(id){
   this.dataService.removeEmployee(id)
   .subscribe( data => {
-    this.users = this.users.filter(u => u !== id);
-    this.getuserdetails();
+    this.userDat.id;
+    // this.getuserdetails();
   })
 }
 updateUser(user: Usermodule): void {

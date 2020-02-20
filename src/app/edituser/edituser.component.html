@@ -6,18 +6,18 @@
     </div>
     <div class="col-md-6 col-md-offset-3">
         <div class="jumbotron">
-            <form [formGroup]="angForm" (ngSubmit)="postdata(angForm)" autocomplete="off" >
+            <!-- <form [formGroup]="angForm" (ngSubmit)="postdata(angForm)" autocomplete="off" > -->
                 <div>
                     <div class="form-group">
                         <label for="CITIZEN_ID">เลขที่บัตรประชาชน</label>
-                        <input type="text" name="CITIZEN_ID" formControlName="CITIZEN_ID" autocomplete="off" class="form-control input-sm" placeholder="เลขที่บัตรประชาชน">
+                        <input type="text" name="CITIZEN_ID" [(ngModel)]="userMo.CITIZEN_ID" autocomplete="off" class="form-control input-sm" placeholder="เลขที่บัตรประชาชน">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="TITLE">คำนำหน้าชื่อ</label>
-                            <select  name="TITLE" formControlName="TITLE" autocomplete="off" class="form-control input-sm" >
+                            <select  name="TITLE" [(ngModel)]="userMo.TITLE" autocomplete="off" class="form-control input-sm" >
                                 <option value="" selected disabled>คำนำหน้าชื่อ</option>
                                 <option value="1">นาย</option>
                                 <option value="2">นาง</option>
@@ -28,7 +28,7 @@
                     <div class="col-md-6">   
                         <div class="form-group">
                             <label for="SEX">เพศ</label>
-                            <select name="SEX" formControlName="SEX" autocomplete="off" class="form-control input-sm">
+                            <select name="SEX" [(ngModel)]="userMo.SEX" autocomplete="off" class="form-control input-sm">
                                 <option value="" selected disabled>เพศ</option>
                                 <option value="M">ชาย</option>
                                 <option value="F">หญิง</option>
@@ -40,13 +40,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="FIRST_NAME">ชื่อตัวไทย</label>
-                            <input type="text" name="FIRST_NAME" formControlName="FIRST_NAME"  autocomplete="off" class="form-control input-sm" onkeyup="isThaichar(this.value,this)" placeholder="ชื่อตัวไทย">
+                            <input type="text" name="FIRST_NAME" [(ngModel)]="userMo.FIRST_NAME"  autocomplete="off" class="form-control input-sm" onkeyup="isThaichar(this.value,this)" placeholder="ชื่อตัวไทย">
                         </div>
                     </div>
                     <div class="col-md-6">  
                         <div class="form-group">
                             <label for="LAST_NAME">ชื่อสกุลไทย</label>
-                            <input type="text" name="LAST_NAME" formControlName="LAST_NAME" autocomplete="off" class="form-control input-sm" onkeyup="isThaichar(this.value,this)" placeholder="ชื่อสกุลไทย">
+                            <input type="text" name="LAST_NAME" [(ngModel)]="userMo.LAST_NAME" autocomplete="off" class="form-control input-sm" onkeyup="isThaichar(this.value,this)" placeholder="ชื่อสกุลไทย">
                         </div>
                     </div>      
                 </div>
@@ -54,7 +54,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="BLOOD">หมู่โลหิต</label>
-                            <select name="BLOOD" formControlName="BLOOD" autocomplete="off" class="form-control input-sm">
+                            <select name="BLOOD" [(ngModel)]="userMo.BLOOD" autocomplete="off" class="form-control input-sm">
                                 <option value="" selected disabled>หมู่โลหิต</option>
                                 <option value="1">เอ</option>
                                 <option value="2">บี</option>
@@ -67,7 +67,7 @@
                         <div class="form-group">
                             <label for="formGroupExampleInput">วันเกิด</label>
                             <div class="input-group">
-                                <input class="form-control input-sm" autocomplete="off" placeholder="dd/mm/yyyy" formControlName="BIRTH_DATE" id="BIRTH_DATE" [(ngModel)]="model2" ngbDatepicker #d2="ngbDatepicker">
+                                <input class="form-control input-sm" autocomplete="off" placeholder="dd/mm/yyyy" [(ngModel)]="userMo.BIRTH_DATE" id="BIRTH_DATE" [(ngModel)]="model2" ngbDatepicker #d2="ngbDatepicker">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button" ></button>
                                 </div>
@@ -75,8 +75,8 @@
                         </div>
                     </div>
                 </div>        
-                <button type="submit" class="btn btn-primary" [disabled]="!angForm.valid">Update</button>
-            </form>
+                <button type="button" (click)="postdata()" class="btn btn-primary" >บันทึก</button>
+            <!-- </form> -->
         </div>
     </div>
     <div class="col-md-3">

@@ -3,6 +3,7 @@ import { FormGroup, FormControl, FormBuilder, Validators, NgForm } from '@angula
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { DataserviceService } from '../dataservice.service';
+import {Usermodule} from '../usermodule';
 import {
   NgbCalendar,
   NgbDateAdapter,
@@ -70,52 +71,58 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
   ]
 })
 export class CreateuserComponent implements OnInit {
-
   angForm: FormGroup;
+  submitted = false;
+  userMo : Usermodule;
   constructor(private fb: FormBuilder,private dataService: DataserviceService,private router:Router) {
  
     this.angForm = this.fb.group({
-      CITIZEN_ID: ['',Validators.required],
+      CITIZEN_ID: ['',[Validators.required, Validators.minLength(13), Validators.maxLength(13)]],
       TITLE     : ['',Validators.required],
       FIRST_NAME: ['',Validators.required],
       LAST_NAME : ['',Validators.required],
       SEX       : ['',Validators.required],
       BLOOD     : ['',Validators.required],
       BIRTH_DATE: ['',Validators.required]
-    });
+    }); 
    }
-  //  getUser(){
-  //   let CREATE_BY = localStorage.getItem('user');
-  //   return CREATE_BY;
-  //  }
- 
+  get f() { return this.angForm.controls; }
+  onReset() {
+    this.submitted = false;
+    this.angForm.reset();
+}
   ngOnInit() {
-  }
-  postdata(angForm1:NgForm)
+    this.userMo = new Usermodule();
+    console.log(this.userMo);
+   }
+  
+  postdata()
   {
+    
+    console.log(this.userMo);
     let  CREATE_BY = localStorage.getItem('user');
-    // console.log(CREATE_BY); 
-    this.dataService.userregistration(angForm1.value.CITIZEN_ID, angForm1.value.TITLE,angForm1.value.FIRST_NAME,angForm1.value.LAST_NAME,angForm1.value.SEX,angForm1.value.BLOOD,angForm1.value.BIRTH_DATE,CREATE_BY)
+    this.userMo.CREATE_BY = CREATE_BY;
+    this.dataService.userregistration(this.userMo)
       .pipe(first())
       .subscribe(
           data => {
+            this.router.navigate(['dashboard']);
             
-            console.log(angForm1.value.BIRTH_DATE);
             
           },
           error => {
-            this.router.navigate(['dashboard']);
-            console.log(angForm1.value.BIRTH_DATE);
+            console.log(this.userMo);
+            // console.log(angForm1.value.BIRTH_DATE);
             console.log(CREATE_BY);
           });
   }
-  get CITIZEN_ID() { return this.angForm.get('CITIZEN_ID'); }
-  get TITLE()      { return this.angForm.get('TITLE');      }
-  get FIRST_NAME() { return this.angForm.get('FIRST_NAME'); }
-  get LAST_NAME()  { return this.angForm.get('LAST_NAME');  }
-  get SEX()        { return this.angForm.get('SEX');        }
-  get BLOOD()      { return this.angForm.get('BLOOD');      }
-  get BIRTH_DATE() { return this.angForm.get('BIRTH_DATE'); }
-  get CREATE_BY()  { return this.angForm.get('CREATE_BY');  }
+  // get CITIZEN_ID() { return this.angForm.get('CITIZEN_ID'); }
+  // get TITLE()      { return this.angForm.get('TITLE');      }
+  // get FIRST_NAME() { return this.angForm.get('FIRST_NAME'); }
+  // get LAST_NAME()  { return this.angForm.get('LAST_NAME');  }
+  // get SEX()        { return this.angForm.get('SEX');        }
+  // get BLOOD()      { return this.angForm.get('BLOOD');      }
+  // get BIRTH_DATE() { return this.angForm.get('BIRTH_DATE'); }
+  // get CREATE_BY()  { return this.angForm.get('CREATE_BY');  }
   
 }

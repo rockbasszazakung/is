@@ -23,31 +23,33 @@ export class DataserviceService {
             return Usermodule;
         }));
 }
-public userregistration(CITIZEN_ID,TITLE,FIRST_NAME,LAST_NAME,SEX,BLOOD,BIRTH_DATE,CREATE_BY ) {
-  return this.httpClient.post<any>(this.baseUrl + '/registration.php', { CITIZEN_ID,TITLE,FIRST_NAME,LAST_NAME,SEX,BLOOD,BIRTH_DATE,CREATE_BY })
+public userregistration(userMo:Usermodule) {
+  var data = JSON.stringify(userMo);
+  return this.httpClient.post<any>(this.baseUrl + '/registration.php', data)
       .pipe(map(Usermodule => {
           return Usermodule;
       }));
 }
-public updateuserdetails(id,CITIZEN_ID,TITLE,FIRST_NAME,LAST_NAME,SEX,BLOOD,BIRTH_DATE,UPDATE_NAME) {
-  return this.httpClient.post<any>(this.baseUrl + '/updateuser.php', { id,CITIZEN_ID,TITLE,FIRST_NAME,LAST_NAME,SEX,BLOOD,BIRTH_DATE,UPDATE_NAME })
+public updateuserdetails(userMo:Usermodule) {
+  var data = JSON.stringify(userMo);
+  return this.httpClient.post<any>(this.baseUrl + '/updateuser.php', data)
     .pipe(map(Usermodule => {
           return Usermodule;
       }));
  
 }
-removeEmployee(id: number): Observable<Usermodule[]> {
-  return this.httpClient.delete<Usermodule[]>(this.baseUrl+'/deletedata.php?id='+id );
+removeEmployee(id: number): Observable<Usermodule> {
+  return this.httpClient.delete<Usermodule>(this.baseUrl+'/deletedata.php?id='+id );
 }
-public getUserId(id: number): Observable<Usermodule[]>
+public getUserId(id: number): Observable<Usermodule>
   {
-    return this.httpClient.get<Usermodule[]>(
+    return this.httpClient.get<Usermodule>(
       this.baseUrl + '/getdataone.php?'+ 'id=' + id 
       );
   }
  
-getAllUsers(id) : Observable<Usermodule[] > {
-  return this.httpClient.get<Usermodule[]>(this.baseUrl+'/getdata.php');
+getAllUsers() : Observable<Usermodule> {
+  return this.httpClient.get<Usermodule>(this.baseUrl+'/getdata.php');
 }
  
 //token

@@ -1,126 +1,254 @@
 <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h2 class="text-center" > </h2>
-        <br />
-        <button class="btn btn-outline-primary"  (click)="addUser()">เพิ่มข้อมูล</button>
-        <br />
-        <br />
-          <div class="bs-example">
-            <form>
-                <div class="row">
-                    <div class="col-sm-5">
-                        <div class="input-group">
-                          <span class="input-group-text">
-                            เลขบัตรประชาชน
-                        </span>    
-                            <input name="CITIZEN_ID" id="CITIZEN_ID" type="text"  class="form-control" onkeyup="myFunction3()">
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="input-group">
-                          <div class="input-group-append">
-                            <span class="input-group-text">เพศ</span>
-                          </div>            
-                          <!-- <select name="SEX" formControlName="SEX" autocomplete="off" class="form-control input-sm">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="text-center"> </h2>
+      <br />
+      <button class="btn btn-outline-info" (click)="addUser()">เพิ่มข้อมูล</button>
+      <br />
+      <br />
+      <!-- <div class="bs-example">
+        <form>
+          <div class="row">
+            <div class="col-sm-5">
+              <div class="input-group">
+                <span class="input-group-text">
+                  เลขบัตรประชาชน
+                </span>
+                <input name="CITIZEN_ID" id="CITIZEN_ID" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="input-group">
+                <div class="input-group-append">
+                  <span class="input-group-text">เพศ</span>
+                </div>
+                <select name="SEX" formControlName="SEX"  class="form-control input-sm">
                             <option value="" selected disabled>เพศ</option>
                             <option value="M">ชาย</option>
                             <option value="F">หญิง</option>
-                          </select> -->
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">หมู่โลหิต</span>
-                            </div>
-                            <!-- <select name="BLOOD" formControlName="BLOOD" autocomplete="off" class="form-control input-sm">
-                              <option value="" selected disabled>หมู่โลหิต</option>
-                              <option value="1">เอ</option>
-                              <option value="2">บี</option>
-                              <option value="3">เอบี</option>
-                              <option value="4">โอ</option>
-                          </select> -->
-                        </div>
-                    </div>
+                          </select>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">หมู่โลหิต</span>
                 </div>
-        <br />
-              <div class="row">
-                  <div class="col-sm-3">
-                      <div class="input-group">
-                        <span class="input-group-text">
-                          คำนำหน้า
-                      </span>    
-                      <!-- <select  name="TITLE" formControlName="TITLE" autocomplete="off" class="form-control input-sm" >
-                        <option value="" selected disabled>คำนำหน้าชื่อ</option>
-                        <option value="1">นาย</option>
-                        <option value="2">นาง</option>
-                        <option value="3">นางสาว</option>
-                    </select> -->
-                      </div>
-                  </div>
-                  <div class="col-sm-4">
-                      <div class="input-group">
-                        <div class="input-group-append">
-                          <span class="input-group-text">ชื่อตัวไทย</span>
-                        </div>            
-                          <input name="FIRST_NAME" id="FIRST_NAME" type="text"  class="form-control"  onkeyup="myFunction()">
-                          
-                      </div>
-                  </div>
-                  <div class="col-sm-5">
-                      <div class="input-group">
-                          <div class="input-group-prepend">
-                              <span class="input-group-text">ชื่อสกุลไทย</span>
-                          </div>
-                          <input name="LAST_NAME" id="LAST_NAME" type="text" class="form-control" onkeyup="myFunction2()">
-                      </div>
-                  </div>
+                <select name="BLOOD" formControlName="BLOOD" class="form-control input-sm">
+                  <option value="" selected disabled>หมู่โลหิต</option>
+                  <option value="1">เอ</option>
+                  <option value="2">บี</option>
+                  <option value="3">เอบี</option>
+                  <option value="4">โอ</option>
+                </select>
               </div>
-      <br />
-              <div class="row">
-                  <div class="col-sm-6">
-                      <div class="input-group">
-                        <span class="input-group-text">
-                          วันเกิด จาก
-                      </span>    
-                          <input type="text" class="form-control">
-                      </div>
-                  </div>
-                  <div class="col-sm-6">
-                      <div class="input-group">
-                        <div class="input-group-append">
-                          <span class="input-group-text">ถึง</span>
-                        </div>            
-                          <input type="text" class="form-control">
-                          
-                      </div>
-                  </div>
-              </div>
-      <br />
-              <div class="row">
-                  <div class="col-sm-4">
-                      <div class="input-group">
-                        <button type="reset" class="btn btn-outline-primary">ล้างข้อมูล</button>
-                          
-                      </div>
-                  </div>
-              </div>
-          </form>
+            </div>
           </div>
-        <br />
-        <form [formGroup]="form" (ngSubmit)="submitForm()" novalidate>
+          <br />
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="input-group">
+                <span class="input-group-text">
+                  คำนำหน้า
+                </span>
+                <select name="TITLE" formControlName="TITLE" autocomplete="off" class="form-control input-sm">
+                  <option value="" selected disabled>คำนำหน้าชื่อ</option>
+                  <option value="1">นาย</option>
+                  <option value="2">นาง</option>
+                  <option value="3">นางสาว</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="input-group">
+                <div class="input-group-append">
+                  <span class="input-group-text">ชื่อตัวไทย</span>
+                </div>
+                <input name="FIRST_NAME" id="FIRST_NAME" type="text" class="form-control">
+
+              </div>
+            </div>
+            <div class="col-sm-5">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">ชื่อสกุลไทย</span>
+                </div>
+                <input name="LAST_NAME" id="LAST_NAME" type="text" class="form-control">
+              </div>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="input-group">
+                <span class="input-group-text">
+                  วันเกิด จาก
+                </span>
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group">
+                <div class="input-group-append">
+                  <span class="input-group-text">ถึง</span>
+                </div>
+                <input type="text" class="form-control">
+
+              </div>
+            </div>
+          </div>
+          <br />
           <div class="row">
             <div class="col-sm-4">
               <div class="input-group">
-                <button type="submit" value="Submit" class="btn btn-outline-danger">ลบ</button>
+                <button onclick="myFunction1()" class="btn btn-outline-primary">ค้นหา</button>
+
               </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="input-group">
+                <button type="reset" class="btn btn-outline-warning">ล้างข้อมูล</button>
+
+              </div>
+            </div>
           </div>
-          
+        </form>
+      </div> -->
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="formGroupExampleInput" (keypress)="numberOnly($event)">เลขบัตรประชาชน</label>
+            <input type="text" onkeyup="searchid()" [(ngModel)]="testX"  class="form-control input-sm"
+              placeholder="เลขบัตรประชาชน" [ngClass]="{ 'is-invalid': submitted && f.idcard.errors }" />
           </div>
-          <br />
-          <table id="table" datatable  class="table table-striped">
-            <thead class="table-primary">
+          <span>{{testX}}</span>
+          <button class="btn" (click)="testfunction()">testfunction</button>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="formGroupExampleInput">เพศ</label>
+            <select id="sex" onkeyup="searchsex()" class="form-control input-sm">
+              <option value="" selected disabled>เลือก</option>
+              <option value="F">ชาย</option>
+              <option value="M">หญิง</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="formGroupExampleInput">หมู่โลหิต</label>
+            <select id="blood" onkeyup="searchblood()" class="form-control input-sm">
+              <option value="" selected disabled>เลือก</option>
+              <option value="1">เอ</option>
+              <option value="2">บี</option>
+              <option value="3">เอบี</option>
+              <option value="4">โอ</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="formGroupExampleInput">คำนำหน้าชื่อ</label>
+            <select id="title" onkeyup="searchtitle()" class="form-control input-sm" placeholder="เลขบัตรประชาชน">
+              <option value="" selected disabled>เลือก</option>
+              <option value="1">นาย</option>
+              <option value="2">นาง</option>
+              <option value="3">นางสาว</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="formGroupExampleInput">ชื่อตัวไทย</label>
+            <input type="text" id="firstname" onkeyup="searchid()" onkeyup="isThaichar(this.value,this)"
+              class="form-control input-sm" placeholder="ชื่อตัวไทย"
+              [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="formGroupExampleInput">ชื่อสกุลไทย</label>
+            <input type="text" id="lastname" onkeyup="searchlastname()" onkeyup="isThaichar(this.value,this)"
+              class="form-control input-sm" placeholder="ชื่อสกุลไทย"
+              [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group hidden">
+          <div class="input-group">
+            <input type="hidden" name="datepicker" class="form-control" ngbDatepicker #datepicker="ngbDatepicker"
+              [autoClose]="'outside'" (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t"
+              outsideDays="hidden" [startDate]="fromDate">
+            <ng-template #t let-date let-focused="focused">
+              <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+                [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+                (mouseleave)="hoveredDate = null">
+                {{ date.day }}
+              </span>
+            </ng-template>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="formGroupExampleInput">วันเกิด จาก</label>
+            <div class="input-group">
+              <!-- <input #dpFromDate class="form-control" placeholder="yyyy-mm-dd" name="dpFromDate"
+                onkeyup="searchdpFromDate()" [value]="formatter.format(fromDate)"
+                (input)="fromDate = validateInput(fromDate, dpFromDate.value)">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="datepicker.toggle()"
+                  type="button"></button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="formGroupExampleInput">ถึง</label>
+            <div class="input-group">
+              <!-- <input #dpToDate class="form-control" placeholder="yyyy-mm-dd" name="dpToDate"
+                onkeyup="searchdpToDate()" [value]="formatter.format(toDate)"
+                (input)="toDate = validateInput(toDate, dpToDate.value)">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="datepicker.toggle()"
+                  type="button"></button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="formGroupExampleInput">จำนวนรายการ/หน้า</label>
+            <select id="frompang" onkeyup="searchfrompang()" class="form-control input-sm">
+              <option value="" selected disabled>เลือก</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <br />
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="input-group">
+              <button type="submit" value="Submit" (click)="submitForm()" class="btn btn-outline-danger">ลบ</button>
+            </div>
+          </div>
+        </div>
+        <br />
+        <!-- <select [(ngModel)]="user.BLOOD">
+          <option *ngFor="user of users" [value]="BLOOD.code">{{BLOOD.name}}</option>
+        </select> -->
+        <table id="table" datatable [dtOptions]="dtOptions" class="table table-striped">
+          <thead class="table-primary">
             <tr>
               <th>ลำดับ</th>
               <th></th>
@@ -133,11 +261,12 @@
               <th>วันเกิด</th>
               <th>รายละเอียด</th>
             </tr>
-            </thead>
-            <tbody >
-            <tr *ngFor="let user of users ;let i = index" >
+          </thead>
+          <!-- *ngFor="let user of users ;let i = index" -->
+          <tbody>
+            <tr *ngFor="let user of userDat ;let i = index" >
               <td>{{i+1}}</td>
-              <td><input type="checkbox" [value]="user.id" (change)="onCheckboxChange($event)"/></td>
+              <td><input type="checkbox" [value]="user.id" (change)="onCheckboxChange($event)" /></td>
               <td>{{user.CITIZEN_ID}}</td>
               <td>{{user.TITLE}}</td>
               <td>{{user.FIRST_NAME}}</td>
@@ -145,11 +274,10 @@
               <td>{{user.SEX}}</td>
               <td>{{user.BLOOD}}</td>
               <td>{{user.BIRTH_DATE|date:'dd/MM/yyyy'}}</td>
-              <td><button class="btn btn-outline-info" (click)="updateUser(user)" style="margin-left: 20px;">Edit</button></td>
+              <td><button class="btn btn-outline-info" (click)="updateUser(user)"
+                  style="margin-left: 20px;">แก้ไข</button></td>
             </tr>
-            </tbody>
-          </table>
-        <!-- <input type="submit" value="Submit"> -->
-      </form>
+          </tbody>
+        </table>
     </div>
   </div>

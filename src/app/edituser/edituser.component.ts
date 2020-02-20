@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { DataserviceService } from '../dataservice.service';
+import {Usermodule} from '../usermodule';
 import {
   NgbDateAdapter,
   NgbDateStruct,
@@ -72,6 +73,9 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
 export class EdituserComponent implements OnInit {
  
   angForm: FormGroup;
+  submitted = false;
+  userMo : Usermodule;
+
   constructor(private fb: FormBuilder,private dataService: DataserviceService,private router:Router) {
  
     this.angForm = this.fb.group({
@@ -87,56 +91,40 @@ export class EdituserComponent implements OnInit {
  
     });
    }
-   getUser(){
-    let UPDATE_NAME = localStorage.getItem('user');
-    return UPDATE_NAME;
-   }
- 
+
+   get f() { return this.angForm.controls; }
+
+   onReset() {
+    this.submitted = false;
+    this.angForm.reset();
+}
   ngOnInit() {
-    
     let id = window.localStorage.getItem("editId");
-    if(!id) {
-      this.router.navigate(['list-user']);
-      return;
-    }
-    this.dataService.getUserId(+id)
-      .subscribe( data => {
-        // this.UPDATE_NAME;
-        // let  UPDATE_NAME = localStorage.getItem('user'); ;
-       // this.angForm.controls[email].setValue('name')
-       // this.email.nativeElement.value = 'This is new value';
-        this.angForm.patchValue({
-          id:data[0].id,CITIZEN_ID:data[0].CITIZEN_ID,TITLE: data[0].TITLE, FIRST_NAME: data[0].FIRST_NAME, LAST_NAME: data[0].LAST_NAME, SEX: data[0].SEX, BLOOD: data[0].BLOOD, BIRTH_DATE:data[0].BIRTH_DATE
-        });
-      });
-  }
+    
+    this.getuserprofilebyid(id);
   
-  postdata(angForm1:NgForm)
+  }
+  getuserprofilebyid(id){
+    this.dataService.getUserId(id)
+    .subscribe( data => {
+    this.userMo = data;
+    console.log('test userMo :',this.userMo);
+    });
+  }
+
+  postdata()
   {
     // console.log("wow")angForm1.value.UPDATE_NAME,
-    let  UPDATE_NAME = localStorage.getItem('user'); ;
-    console.log(UPDATE_NAME);
-    this.dataService.updateuserdetails(angForm1.value.id,angForm1.value.CITIZEN_ID, angForm1.value.TITLE,angForm1.value.FIRST_NAME,angForm1.value.LAST_NAME,angForm1.value.SEX,angForm1.value.BLOOD,angForm1.value.BIRTH_DATE,UPDATE_NAME)
+    console.log(this.userMo)
+    let  UPDATE_NAME = localStorage.getItem('user'); 
+    this.userMo.UPDATE_NAME = UPDATE_NAME;
+    this.dataService.updateuserdetails(this.userMo)
     .pipe(first())
     .subscribe(
         () => {
-            this.router.navigate(['dashboard']);
-            console.log(angForm1.value.CITIZEN_ID);
-            console.log(angForm1.value.UPDATE_NAME);
+            // this.router.navigate(['dashboard']);
         },
         () => {
         });
-        console.log(angForm1.value.CITIZEN_ID);
-        // console.log("wow"+localStorage.getItem('user'));
-        console.log(UPDATE_NAME);
   }
-  get id()          {return this.angForm.get('id');         }
-  get CITIZEN_ID() { return this.angForm.get('CITIZEN_ID'); }
-  get TITLE()      { return this.angForm.get('TITLE');      }
-  get FIRST_NAME() { return this.angForm.get('FIRST_NAME'); }
-  get LAST_NAME()  { return this.angForm.get('LAST_NAME');  }
-  get SEX()        { return this.angForm.get('SEX');        }
-  get BLOOD()      { return this.angForm.get('BLOOD');      }
-  get BIRTH_DATE() { return this.angForm.get('BIRTH_DATE'); }
-  get UPDATE_NAME(){ return this.angForm.get('UPDATE_NAME');}
 }
