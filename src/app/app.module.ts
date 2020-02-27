@@ -12,6 +12,8 @@ import { CreateuserComponent } from './createuser/createuser.component';
 import { EdituserComponent } from './edituser/edituser.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { DataTablesModule } from 'angular-datatables';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { NgSelectModule } from '@ng-select/ng-select';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +21,8 @@ import { DataTablesModule } from 'angular-datatables';
     // RegistrationComponent,
     DashboardComponent,
     CreateuserComponent,
-    EdituserComponent
+    EdituserComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -28,7 +31,9 @@ import { DataTablesModule } from 'angular-datatables';
     HttpClientModule,
     ReactiveFormsModule,
     NgbModule,
-    DataTablesModule
+    DataTablesModule,
+    Ng2SearchPipeModule,
+    NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

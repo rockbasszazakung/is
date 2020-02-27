@@ -11,36 +11,23 @@
         <div class="form-group">
           <label for="CITIZEN_ID">เลขที่บัตรประชาชน</label>
           <input type="text" name="CITIZEN_ID" [(ngModel)]="userMo.CITIZEN_ID" id="CITIZEN_ID" autocomplete="off"
-            class="form-control input-sm" onkeyup="isNumberchar(this.value,this)" placeholder="เลขที่บัตรประชาชน"
-            [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
-          <div *ngIf="submitted && f.CITIZEN_ID.errors" class="invalid-feedback">
-            <div *ngIf="f.CITIZEN_ID.errors.required">กรุณากรอกเลขบัตรประชาชน</div>
-            <!-- <div *ngIf="f.CITIZEN_ID.errors.minlength">กรุณากรอกให้ครบ 13 ตัว</div> -->
-            <!-- <div *ngIf= "f.CITIZEN_ID.errors.maxlength">เลขบัตรประชาชนเกิน 13 ตัว</div> -->
-          </div>
+            class="form-control input-sm" onkeyup="isNumberchar(this.value,this)" placeholder="เลขที่บัตรประชาชน">
+            <p *ngIf="CITIZEN_ID_Validators == true">{{CITIZEN_ID_Validators_value}}</p> 
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
             <label for="TITLE">คำนำหน้าชื่อ</label>
-            <select name="TITLE" [(ngModel)]="userMo.TITLE" autocomplete="off" class="form-control input-sm">
-              <option value="" selected disabled>คำนำหน้าชื่อ</option>
-              <option value="1">นาย</option>
-              <option value="2">นาง</option>
-              <option value="3">นางสาว</option>
-            </select>
+            <ng-select [items]="TITLE" bindLabel="name" bindValue="id" placeholder="คำนำหน้าชื่อ" [(ngModel)]="userMo.TITLE"> </ng-select>
+          <p *ngIf="TITLE_Validators == true">{{TITLE_Validators_value}}</p>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
             <label for="SEX">เพศ</label>
-            <select name="SEX" [(ngModel)]="userMo.SEX" autocomplete="off"
-              class="form-control input-sm">
-              <option value="" selected disabled>เพศ</option>
-              <option value="M">ชาย</option>
-              <option value="F">หญิง</option>
-            </select>
+            <ng-select [items]="SEX" bindLabel="name" bindValue="id" placeholder="เพศ"   [(ngModel)]="userMo.SEX"> </ng-select>
+            <p *ngIf="SEX_Validators == true">{{SEX_Validators_value}}</p>
           </div>
         </div>
       </div>
@@ -50,28 +37,24 @@
             <label for="FIRST_NAME">ชื่อตัวไทย</label>
             <input type="text" name="FIRST_NAME" [(ngModel)]="userMo.FIRST_NAME" autocomplete="off"
               class="form-control input-sm" onkeyup="isThaichar(this.value,this)" placeholder="ชื่อตัวไทย">
+              <p *ngIf="FIRST_NAME_Validators == true">{{FIRST_NAME_Validators_value}}</p>
           </div>
         </div>
-        <span>{{userMo.FIRST_NAME}}</span>
         <div class="col-md-6">
           <div class="form-group">
             <label for="LAST_NAME">ชื่อสกุลไทย</label>
             <input type="text" name="LAST_NAME" [(ngModel)]="userMo.LAST_NAME" autocomplete="off"
               class="form-control input-sm" onkeyup="isThaichar(this.value,this)" placeholder="ชื่อสกุลไทย">
+              <p *ngIf="LAST_NAME_Validators == true">{{LAST_NAME_Validators_value}}</p>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <label for="BLOOD">หมู่โลหิต</label>
-            <select name="BLOOD" [(ngModel)]="userMo.BLOOD" autocomplete="off" class="form-control input-sm">
-              <option value="" selected disabled>หมู่โลหิต</option>
-              <option value="1">เอ</option>
-              <option value="2">บี</option>
-              <option value="3">เอบี</option>
-              <option value="4">โอ</option>
-            </select>
+            <label>หมู่โลหิต</label>
+            <ng-select [items]="BLOOD" bindLabel="name"  placeholder="หมู่โลหิต"  [(ngModel)]="userMo.BLOOD"> </ng-select>
+            <p *ngIf="BLOOD_Validators == true">{{BLOOD_Validators_value}}</p>
           </div>
         </div>
         <div class="col-md-6">
@@ -84,13 +67,11 @@
                 <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button"></button>
               </div>
             </div>
+            <p *ngIf="BIRTH_DATE_Validators == true">{{BIRTH_DATE_Validators_value}}</p>
           </div>
         </div>
-      </div>
-      <!-- <pre>Model: {{ model2 | json }}</pre> -->
+      </div> 
       <button type="button" (click)="postdata()" class="btn btn-primary">บันทึก</button>
-
-      <!-- </form> -->
     </div>
   </div>
   <div class="col-md-3">

@@ -12,6 +12,8 @@ export class Usermodule {
   isSelected: any;
     public UPDATE_NAME: string;
     public CREATE_BY : string;
+    public FromDate:string;
+    public ToDate:string;
  
 //     static(CITIZEN_ID:string,TITLE: string,FIRST_NAME:string,LAST_NAME:string,SEX:string,BLOOD:string,BIRTH_DATE:string,id:number) {
 //       this.id = id;

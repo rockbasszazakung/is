@@ -71,29 +71,29 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
   ]
 })
 export class EdituserComponent implements OnInit {
- 
+  // boolean
+  CITIZEN_ID_Validators:boolean;
+  TITLE_Validators:boolean;
+  SEX_Validators:boolean;
+  FIRST_NAME_Validators:boolean;
+  LAST_NAME_Validators:boolean;
+  BLOOD_Validators:boolean;
+  BIRTH_DATE_Validators:boolean;
+  // string
+  CITIZEN_ID_Validators_value:string;
+  TITLE_Validators_value:string;
+  SEX_Validators_value:string;
+  FIRST_NAME_Validators_value:string;
+  LAST_NAME_Validators_value:string;
+  BLOOD_Validators_value:string;
+  BIRTH_DATE_Validators_value:string;
+
   angForm: FormGroup;
   submitted = false;
   userMo : Usermodule;
-
+ 
   constructor(private fb: FormBuilder,private dataService: DataserviceService,private router:Router) {
- 
-    this.angForm = this.fb.group({
-      id        : ['',Validators.required],
-      CITIZEN_ID: ['',Validators.required],
-      TITLE     : ['',Validators.required],
-      FIRST_NAME: ['',Validators.required],
-      LAST_NAME : ['',Validators.required],
-      SEX       : ['',Validators.required],
-      BLOOD     : ['',Validators.required],
-      BIRTH_DATE: ['',Validators.required],
-      // UPDATE_NAME:['',Validators.required]
- 
-    });
-   }
-
-   get f() { return this.angForm.controls; }
-
+  }
    onReset() {
     this.submitted = false;
     this.angForm.reset();
@@ -108,23 +108,89 @@ export class EdituserComponent implements OnInit {
     this.dataService.getUserId(id)
     .subscribe( data => {
     this.userMo = data;
-    console.log('test userMo :',this.userMo);
+    console.log('test userMo :',this.userMo); 
     });
   }
 
   postdata()
   {
-    // console.log("wow")angForm1.value.UPDATE_NAME,
-    console.log(this.userMo)
-    let  UPDATE_NAME = localStorage.getItem('user'); 
-    this.userMo.UPDATE_NAME = UPDATE_NAME;
-    this.dataService.updateuserdetails(this.userMo)
-    .pipe(first())
-    .subscribe(
-        () => {
-            // this.router.navigate(['dashboard']);
-        },
-        () => {
-        });
+    this.Validators_CITIZEN_ID();
+    this.Validators_TITLE();
+    this.Validators_SEX();
+    this.Validators_FIRST_NAME();
+    this.Validators_LAST_NAME();
+    this.Validators_BLOOD();
+    this.Validators_BIRTH_DATE();
+    if(this.CITIZEN_ID_Validators == false && this.TITLE_Validators == false && this.SEX_Validators == false
+      && this.FIRST_NAME_Validators == false && this.LAST_NAME_Validators == false && this.BLOOD_Validators==false
+      && this.BIRTH_DATE_Validators == false ){
+          console.log("wow wow");
+          let  UPDATE_NAME = localStorage.getItem('user'); 
+          this.userMo.UPDATE_NAME = UPDATE_NAME;
+          this.dataService.updateuserdetails(this.userMo)
+          .pipe(first())
+          .subscribe(
+              () => {
+                  this.router.navigate(['dashboard']);
+              },
+              () => {
+              });
+    }
   }
-}
+  Validators_CITIZEN_ID(){
+    if(this.userMo.CITIZEN_ID == undefined ||this.userMo.CITIZEN_ID == ''){
+      this.CITIZEN_ID_Validators = true;
+      this.CITIZEN_ID_Validators_value ="กรุณากรอกเลขบัตรประชาชน";
+    }else{
+      this.CITIZEN_ID_Validators = false;
+    }
+  }
+  Validators_TITLE(){
+    if(this.userMo.TITLE == undefined || this.userMo.TITLE == ''){
+      this.TITLE_Validators = true;
+      this.TITLE_Validators_value = "กรุณาเลือกคำนำหน้าชื่อ"
+    }else{
+      this.TITLE_Validators = false;
+    }
+  }
+  Validators_SEX(){
+    if(this.userMo.SEX == undefined || this.userMo.SEX == ''){
+      this.SEX_Validators = true;
+      this.SEX_Validators_value = "กรุณาเลือกเพศ"
+    }else{
+      this.SEX_Validators = false;
+    }
+  }
+  Validators_FIRST_NAME(){
+    if(this.userMo.FIRST_NAME == undefined || this.userMo.FIRST_NAME == ''){
+      this.FIRST_NAME_Validators = true;
+      this.FIRST_NAME_Validators_value = "กรุณากรอกชื่อตัวไทย"
+    }else{
+      this.FIRST_NAME_Validators = false;
+    }
+  }
+  Validators_LAST_NAME(){
+    if(this.userMo.LAST_NAME == undefined || this.userMo.LAST_NAME == ''){
+      this.LAST_NAME_Validators = true;
+      this.LAST_NAME_Validators_value = "กรุณากรอกชื่อสกุลไทย"
+    }else{
+      this.LAST_NAME_Validators = false;
+    }
+  }
+  Validators_BLOOD(){
+    if(this.userMo.BLOOD == undefined || this.userMo.BLOOD == ''){
+      this.BLOOD_Validators = true;
+      this.BLOOD_Validators_value = "กรุณาเลือกหมู่โลหิต"
+    }else{
+      this.BLOOD_Validators = false;
+    }
+  }
+  Validators_BIRTH_DATE(){
+    if(this.userMo.BIRTH_DATE == undefined || this.userMo.BIRTH_DATE == ''){
+      this.BIRTH_DATE_Validators = true;
+      this.BIRTH_DATE_Validators_value = "กรุณาเลือกวันเกิด"
+    }else{
+      this.BIRTH_DATE_Validators = false;
+    }
+  }
+}    

@@ -65,28 +65,53 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
 @Component({
   selector: 'app-createuser',
   templateUrl: './createuser.component.html',
+  styleUrls: ['./createuser.component.css'],
   providers: [
     {provide: NgbDateAdapter, useClass: CustomAdapter},
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter}
   ]
 })
 export class CreateuserComponent implements OnInit {
+  // boolean
+  CITIZEN_ID_Validators:boolean;
+  TITLE_Validators:boolean;
+  SEX_Validators:boolean;
+  FIRST_NAME_Validators:boolean;
+  LAST_NAME_Validators:boolean;
+  BLOOD_Validators:boolean;
+  BIRTH_DATE_Validators:boolean;
+  // string
+  CITIZEN_ID_Validators_value:string;
+  TITLE_Validators_value:string;
+  SEX_Validators_value:string;
+  FIRST_NAME_Validators_value:string;
+  LAST_NAME_Validators_value:string;
+  BLOOD_Validators_value:string;
+  BIRTH_DATE_Validators_value:string;
+
   angForm: FormGroup;
   submitted = false;
   userMo : Usermodule;
-  constructor(private fb: FormBuilder,private dataService: DataserviceService,private router:Router) {
- 
-    this.angForm = this.fb.group({
-      CITIZEN_ID: ['',[Validators.required, Validators.minLength(13), Validators.maxLength(13)]],
-      TITLE     : ['',Validators.required],
-      FIRST_NAME: ['',Validators.required],
-      LAST_NAME : ['',Validators.required],
-      SEX       : ['',Validators.required],
-      BLOOD     : ['',Validators.required],
-      BIRTH_DATE: ['',Validators.required]
-    }); 
-   }
-  get f() { return this.angForm.controls; }
+  BLOOD = [
+    {id: 1, name: 'เอ'},
+    {id: 2, name: 'บี'},
+    {id: 3, name: 'เอบี'},
+    {id: 4, name: 'โอ'},
+  ];
+
+  SEX = [
+    {id:1, name: 'ชาย'},
+    {id:2, name: 'หญิง'}
+  ];
+
+  TITLE = [
+    {id:1,name:'นาย'},
+    {id:2,name:'นาง'},
+    {id:3,name:'นางสาว'}
+  ]
+  constructor(private dataService: DataserviceService,private router:Router) {
+
+  }
   onReset() {
     this.submitted = false;
     this.angForm.reset();
@@ -94,35 +119,87 @@ export class CreateuserComponent implements OnInit {
   ngOnInit() {
     this.userMo = new Usermodule();
     console.log(this.userMo);
-   }
-  
+  }
   postdata()
   {
-    
-    console.log(this.userMo);
-    let  CREATE_BY = localStorage.getItem('user');
-    this.userMo.CREATE_BY = CREATE_BY;
-    this.dataService.userregistration(this.userMo)
-      .pipe(first())
-      .subscribe(
-          data => {
-            this.router.navigate(['dashboard']);
-            
-            
+    this.Validators_CITIZEN_ID();
+    this.Validators_TITLE();
+    this.Validators_SEX();
+    this.Validators_FIRST_NAME();
+    this.Validators_LAST_NAME();
+    this.Validators_BLOOD();
+    this.Validators_BIRTH_DATE();
+    if(this.CITIZEN_ID_Validators == false && this.TITLE_Validators == false && this.SEX_Validators == false
+      && this.FIRST_NAME_Validators == false && this.LAST_NAME_Validators == false && this.BLOOD_Validators == false
+      && this.BIRTH_DATE_Validators == false ){
+          console.log("wow wow");
+          let  CREATE_BY = localStorage.getItem('user');
+          this.userMo.CREATE_BY = CREATE_BY;
+          this.dataService.userregistration(this.userMo)
+            .pipe(first())
+            .subscribe(
+                () => {
           },
-          error => {
-            console.log(this.userMo);
-            // console.log(angForm1.value.BIRTH_DATE);
-            console.log(CREATE_BY);
+          () => {
+            this.router.navigate(['dashboard']);
           });
+          }
+    
   }
-  // get CITIZEN_ID() { return this.angForm.get('CITIZEN_ID'); }
-  // get TITLE()      { return this.angForm.get('TITLE');      }
-  // get FIRST_NAME() { return this.angForm.get('FIRST_NAME'); }
-  // get LAST_NAME()  { return this.angForm.get('LAST_NAME');  }
-  // get SEX()        { return this.angForm.get('SEX');        }
-  // get BLOOD()      { return this.angForm.get('BLOOD');      }
-  // get BIRTH_DATE() { return this.angForm.get('BIRTH_DATE'); }
-  // get CREATE_BY()  { return this.angForm.get('CREATE_BY');  }
-  
+  Validators_CITIZEN_ID(){
+    if(this.userMo.CITIZEN_ID == undefined ||this.userMo.CITIZEN_ID == ''){
+      this.CITIZEN_ID_Validators = true;
+      this.CITIZEN_ID_Validators_value ="กรุณากรอกเลขบัตรประชาชน";
+    }else{
+      this.CITIZEN_ID_Validators = false;
+    }
+  }
+  Validators_TITLE(){
+    if(this.userMo.TITLE == undefined || this.userMo.TITLE == ''){
+      this.TITLE_Validators = true;
+      this.TITLE_Validators_value = "กรุณาเลือกคำนำหน้าชื่อ"
+    }else{
+      this.TITLE_Validators = false;
+    }
+  }
+  Validators_SEX(){
+    if(this.userMo.SEX == undefined || this.userMo.SEX == ''){
+      this.SEX_Validators = true;
+      this.SEX_Validators_value = "กรุณาเลือกเพศ"
+    }else{
+      this.SEX_Validators = false;
+    }
+  }
+  Validators_FIRST_NAME(){
+    if(this.userMo.FIRST_NAME == undefined || this.userMo.FIRST_NAME == ''){
+      this.FIRST_NAME_Validators = true;
+      this.FIRST_NAME_Validators_value = "กรุณากรอกชื่อตัวไทย"
+    }else{
+      this.FIRST_NAME_Validators = false;
+    }
+  }
+  Validators_LAST_NAME(){
+    if(this.userMo.LAST_NAME == undefined || this.userMo.LAST_NAME == ''){
+      this.LAST_NAME_Validators = true;
+      this.LAST_NAME_Validators_value = "กรุณากรอกชื่อสกุลไทย"
+    }else{
+      this.LAST_NAME_Validators = false;
+    }
+  }
+  Validators_BLOOD(){
+    if(this.userMo.BLOOD == undefined || this.userMo.BLOOD == ''){
+      this.BLOOD_Validators = true;
+      this.BLOOD_Validators_value = "กรุณาเลือกหมู่โลหิต"
+    }else{
+      this.BLOOD_Validators = false;
+    }
+  }
+  Validators_BIRTH_DATE(){
+    if(this.userMo.BIRTH_DATE == undefined || this.userMo.BIRTH_DATE == ''){
+      this.BIRTH_DATE_Validators = true;
+      this.BIRTH_DATE_Validators_value = "กรุณาเลือกวันเกิด"
+    }else{
+      this.BIRTH_DATE_Validators = false;
+    }
+  }
 }

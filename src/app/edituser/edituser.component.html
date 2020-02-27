@@ -3,7 +3,7 @@
 <br />
 <div class="row">
     <div class="col-md-3">
-    </div>
+    </div> 
     <div class="col-md-6 col-md-offset-3">
         <div class="jumbotron">
             <!-- <form [formGroup]="angForm" (ngSubmit)="postdata(angForm)" autocomplete="off" > -->
@@ -11,6 +11,7 @@
                     <div class="form-group">
                         <label for="CITIZEN_ID">เลขที่บัตรประชาชน</label>
                         <input type="text" name="CITIZEN_ID" [(ngModel)]="userMo.CITIZEN_ID" autocomplete="off" class="form-control input-sm" placeholder="เลขที่บัตรประชาชน">
+                        <p *ngIf="CITIZEN_ID_Validators == true">{{CITIZEN_ID_Validators_value}}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -23,6 +24,7 @@
                                 <option value="2">นาง</option>
                                 <option value="3">นางสาว</option>
                             </select>
+                            <p *ngIf="TITLE_Validators == true">{{TITLE_Validators_value}}</p>
                         </div>
                     </div> 
                     <div class="col-md-6">   
@@ -33,6 +35,7 @@
                                 <option value="M">ชาย</option>
                                 <option value="F">หญิง</option>
                             </select>
+                            <p *ngIf="SEX_Validators == true">{{SEX_Validators_value}}</p>
                         </div>
                     </div>    
                 </div>
@@ -41,12 +44,14 @@
                         <div class="form-group">
                             <label for="FIRST_NAME">ชื่อตัวไทย</label>
                             <input type="text" name="FIRST_NAME" [(ngModel)]="userMo.FIRST_NAME"  autocomplete="off" class="form-control input-sm" onkeyup="isThaichar(this.value,this)" placeholder="ชื่อตัวไทย">
+                            <p *ngIf="FIRST_NAME_Validators == true">{{FIRST_NAME_Validators_value}}</p>
                         </div>
                     </div>
                     <div class="col-md-6">  
                         <div class="form-group">
                             <label for="LAST_NAME">ชื่อสกุลไทย</label>
                             <input type="text" name="LAST_NAME" [(ngModel)]="userMo.LAST_NAME" autocomplete="off" class="form-control input-sm" onkeyup="isThaichar(this.value,this)" placeholder="ชื่อสกุลไทย">
+                            <p *ngIf="LAST_NAME_Validators == true">{{LAST_NAME_Validators_value}}</p>
                         </div>
                     </div>      
                 </div>
@@ -61,6 +66,7 @@
                                 <option value="3">เอบี</option>
                                 <option value="4">โอ</option>
                             </select>
+                            <p *ngIf="BLOOD_Validators == true">{{BLOOD_Validators_value}}</p>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -72,6 +78,7 @@
                                     <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button" ></button>
                                 </div>
                             </div>
+                            <p *ngIf="BIRTH_DATE_Validators == true">{{BIRTH_DATE_Validators_value}}</p>
                         </div>
                     </div>
                 </div>        
