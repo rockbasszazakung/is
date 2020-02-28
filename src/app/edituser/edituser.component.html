@@ -69,7 +69,7 @@
                             <p *ngIf="BLOOD_Validators == true">{{BLOOD_Validators_value}}</p>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <div class="form-group">
                             <label for="formGroupExampleInput">วันเกิด</label>
                             <div class="input-group">
@@ -80,6 +80,16 @@
                             </div>
                             <p *ngIf="BIRTH_DATE_Validators == true">{{BIRTH_DATE_Validators_value}}</p>
                         </div>
+                    </div> -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>วันเกิด</label>
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker" placeholder="dd/m/yyyy" [(ngModel)]="userMo.BIRTH_DATE">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        <p *ngIf="BIRTH_DATE_Validators == true">{{BIRTH_DATE_Validators_value}}</p>
                     </div>
                 </div>        
                 <button type="button" (click)="postdata()" class="btn btn-primary" >บันทึก</button>

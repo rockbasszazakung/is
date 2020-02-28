@@ -125,13 +125,13 @@ export class EdituserComponent implements OnInit {
       && this.FIRST_NAME_Validators == false && this.LAST_NAME_Validators == false && this.BLOOD_Validators==false
       && this.BIRTH_DATE_Validators == false ){
           console.log("wow wow");
-          let  UPDATE_NAME = localStorage.getItem('user'); 
-          this.userMo.UPDATE_NAME = UPDATE_NAME;
+          this.HBD();
+          this.UPDATE_NAME(); 
           this.dataService.updateuserdetails(this.userMo)
           .pipe(first())
           .subscribe(
               () => {
-                  this.router.navigate(['dashboard']);
+                this.router.navigate(['dashboard']);
               },
               () => {
               });
@@ -141,7 +141,18 @@ export class EdituserComponent implements OnInit {
     if(this.userMo.CITIZEN_ID == undefined ||this.userMo.CITIZEN_ID == ''){
       this.CITIZEN_ID_Validators = true;
       this.CITIZEN_ID_Validators_value ="กรุณากรอกเลขบัตรประชาชน";
-    }else{
+    }
+    else if(this.userMo.CITIZEN_ID.length <13){
+      console.log(this.userMo.CITIZEN_ID.length);
+      this.CITIZEN_ID_Validators = true;
+      this.CITIZEN_ID_Validators_value ="กรอกเลขบัตรประชาชนน้อยกว่า13ตัว";
+    } 
+    else if(this.userMo.CITIZEN_ID.length >13){
+      console.log(this.userMo.CITIZEN_ID.length);
+      this.CITIZEN_ID_Validators = true;
+      this.CITIZEN_ID_Validators_value ="กรอกเลขบัตรประชาชนให้มากกว่า13ตัว";
+    }
+    else{
       this.CITIZEN_ID_Validators = false;
     }
   }
@@ -192,5 +203,17 @@ export class EdituserComponent implements OnInit {
     }else{
       this.BIRTH_DATE_Validators = false;
     }
+  }
+  HBD(){
+    console.log("เดิม",this.userMo.BIRTH_DATE)
+    let day = this.userMo.BIRTH_DATE.getDate();
+    let month =(this.userMo.BIRTH_DATE.getMonth()+1);
+    let year = this.userMo.BIRTH_DATE.getFullYear();
+    this.userMo.BIRTH_DATE = year + '/' + month + '/' +  day;
+    console.log("ใหม่",this.userMo.BIRTH_DATE);
+  }
+  UPDATE_NAME(){
+    let  UPDATE_NAME = localStorage.getItem('user'); 
+    this.userMo.UPDATE_NAME = UPDATE_NAME;
   }
 }    

@@ -1,3 +1,4 @@
+import { logging } from 'protractor';
 import { Component, OnInit, Injectable } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { first } from 'rxjs/operators';
@@ -136,7 +137,7 @@ export class CreateuserComponent implements OnInit {
     this.Validators_FIRST_NAME();
     this.Validators_LAST_NAME();
     this.Validators_BLOOD();
-    this.Validators_BIRTH_DATE();
+    this.Validators_BIRTH_DATE(); 
     if(this.CITIZEN_ID_Validators == false && this.TITLE_Validators == false && this.SEX_Validators == false
       && this.FIRST_NAME_Validators == false && this.LAST_NAME_Validators == false && this.BLOOD_Validators == false
       && this.BIRTH_DATE_Validators == false ){
@@ -155,11 +156,23 @@ export class CreateuserComponent implements OnInit {
           }
     
   }
+  // this.userMo.CITIZEN_ID == undefined ||this.userMo.CITIZEN_ID == ''
   Validators_CITIZEN_ID(){
     if(this.userMo.CITIZEN_ID == undefined ||this.userMo.CITIZEN_ID == ''){
       this.CITIZEN_ID_Validators = true;
       this.CITIZEN_ID_Validators_value ="กรุณากรอกเลขบัตรประชาชน";
-    }else{
+    }
+    else if(this.userMo.CITIZEN_ID.length <13){
+      console.log(this.userMo.CITIZEN_ID.length);
+      this.CITIZEN_ID_Validators = true;
+      this.CITIZEN_ID_Validators_value ="กรอกเลขบัตรประชาชนน้อยกว่า13ตัว";
+    } 
+    else if(this.userMo.CITIZEN_ID.length >13){
+      console.log(this.userMo.CITIZEN_ID.length);
+      this.CITIZEN_ID_Validators = true;
+      this.CITIZEN_ID_Validators_value ="กรอกเลขบัตรประชาชนให้มากกว่า13ตัว";
+    }
+    else{
       this.CITIZEN_ID_Validators = false;
     }
   }

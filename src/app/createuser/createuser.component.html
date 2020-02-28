@@ -62,8 +62,8 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>วันเกิด</label>
-            <mat-form-field>
-              <input matInput [matDatepicker]="picker" placeholder="วันเกิด" [(ngModel)]="userMo.BIRTH_DATE">
+            <mat-form-field> 
+              <input matInput [matDatepicker]="picker" placeholder="dd/m/yyyy" [(ngModel)]="userMo.BIRTH_DATE">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>

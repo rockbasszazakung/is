@@ -11,7 +11,8 @@ import {NgbDate, NgbCalendar, NgbDateParserFormatter} from '@ng-bootstrap/ng-boo
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
-})
+  }
+)
 
 export class DashboardComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
@@ -21,28 +22,22 @@ export class DashboardComponent implements OnInit {
   data:number;
   FromDate:string;
   ToDate:string;
-  
-  // dpFromDate:any;
-  // dpToDate:any;
   BLOOD = [
     {id: 1, name: 'เอ'},
     {id: 2, name: 'บี'},
     {id: 3, name: 'เอบี'},
     {id: 4, name: 'โอ'},
   ];
-
   SEX = [
     {id:'M', name: 'ชาย'},
     {id:'F', name: 'หญิง'}
   ];
-
   TITLE = [
     {id:1,name:'นาย'},
     {id:2,name:'นาง'},
     {id:3,name:'นางสาว'}
   ]
   hoveredDate: NgbDate;
-
   fromDate: NgbDate;
   toDate: NgbDate;
   constructor(private fb: FormBuilder,private dataService: DataserviceService,private router:Router, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
@@ -87,7 +82,7 @@ getuserdetails()
   .subscribe( data => {
   this.userDat = data;
   });
-} 
+  } 
 onCheckboxChange(e) {
   const checkArray: FormArray = this.form.get('checkArray') as FormArray;
   if (e.target.checked) {
@@ -102,7 +97,7 @@ onCheckboxChange(e) {
       i++;
     });
   }
-}
+  }
 clear(){
 this.userMo.CITIZEN_ID = undefined;
 this.userMo.FIRST_NAME=undefined;
@@ -110,16 +105,16 @@ this.userMo.LAST_NAME=undefined;
 this.userMo.SEX=undefined;
 this.userMo.BLOOD=undefined;
 this.userMo.TITLE=undefined;
-this.fromDate=undefined;
-this.toDate=undefined;
-}
+this.userMo.FromDate=undefined;
+this.userMo.ToDate=undefined;
+  }
 submitForm() {
   console.log(this.form.value)
   this.form.value.checkArray.forEach(id => {
     console.log(id);
     this.deleteuserdetails(id);
   });
-}
+  }
 postdata()
   {
     console.log(this.userMo)
@@ -129,36 +124,44 @@ postdata()
     let LAST_NAME       :any = this.userMo.LAST_NAME;
     let SEX             :any = this.userMo.SEX;
     let BLOOD           :any = this.userMo.BLOOD;
-    let BIRTH_DATE_START:string;
-    let BIRTH_DATE_END  :string;
-    if(this.fromDate==undefined ){
-      BIRTH_DATE_START =undefined;
+    let BIRTH_DATE_START:any = this.userMo.FromDate;
+    let BIRTH_DATE_END  :any = this.userMo.ToDate;
+    if(BIRTH_DATE_START == undefined){
+      BIRTH_DATE_START = undefined;
     }else{
-      BIRTH_DATE_START = this.fromDate.year.toString() + "-" + this.fromDate.month.toString() + "-" + this.fromDate.day.toString();
+      let day1 = this.userMo.FromDate.getDate();
+      let month1= (this.userMo.FromDate.getMonth()+1);
+      let year1 =this.userMo.FromDate.getFullYear();
+      BIRTH_DATE_START =  year1 + '/' + month1 + '/' +  day1;
     } 
-    if(this.toDate == undefined){
-      BIRTH_DATE_END=undefined;
+    if(BIRTH_DATE_END == undefined){
+      BIRTH_DATE_END = undefined;
     }else{
-      BIRTH_DATE_END = this.toDate.year.toString()   + "-" + this.toDate.month.toString()   + "-" + this.toDate.day.toString();
+      let day2 = this.userMo.ToDate.getDate();
+      let month2= (this.userMo.ToDate.getMonth()+1);
+      let year2 =this.userMo.ToDate.getFullYear();
+      BIRTH_DATE_END =  year2 + '/' + month2 + '/' +  day2;
     }
+    console.log("ต้น", BIRTH_DATE_START);
+    console.log("หลัง",BIRTH_DATE_END);
     this.dataService.searchAll(CITIZEN_ID,TITLE,FIRST_NAME,LAST_NAME,SEX,BLOOD,BIRTH_DATE_START,BIRTH_DATE_END)
   .subscribe( data => {
     this.userDat = data;
-  })
-}
+    })
+  }
 deleteuserdetails(id){
   this.dataService.removeEmployee(id)
   .subscribe( data => {
     this.userDat.id;
     this.router.navigate(['dashboard']);
-  })
-}
+    })
+  }
 updateUser(user: Usermodule): void {
   window.localStorage.removeItem("editId");
   window.localStorage.setItem("editId", user.id.toString());
   this.router.navigate(['edit']); 
-};
+  };
 addUser(): void {
   this.router.navigate(['create']);
-};
+  };
 }

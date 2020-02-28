@@ -163,7 +163,7 @@
       </div>
       
       <div class="row">
-          <div class="form-group hidden">
+          <!-- <div class="form-group hidden">
             <div class="input-group">
               <input name="datepicker"
                     [hidden]="true"
@@ -187,10 +187,17 @@
                 </span>
               </ng-template>
             </div>
-          </div>
+          </div> -->
           <div class="col-md-4">
             <label>วันเกิด</label>
             <div class="input-group">
+              <mat-form-field> 
+                <input matInput [matDatepicker]="picker1" placeholder="dd/m/yyyy" [(ngModel)]="userMo.FromDate">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            </div>
+            <!-- <div class="input-group">
                 <input #dpFromDate
                       class="form-control" [(ngModel)]="userMo.fromDate" placeholder="yyyy-mm-dd"
                       name="dpFromDate"
@@ -199,12 +206,19 @@
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar" (click)="datepicker.toggle()" type="button"></button>
               </div>
-            </div>
+            </div> -->
+            <!-- <div class="input-group">
+              <mat-form-field> 
+                <input matInput [matDatepicker]="picker" placeholder="วันเกิด" [(ngModel)]="userMo.BIRTH_DATE1">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            </div> -->
           </div>
           
           <div class="col-md-4">
             <label>ถึง</label>
-            <div class="input-group">
+            <!-- <div class="input-group">
               
               <input #dpToDate
                       class="form-control"  [(ngModel)]="userMo.toDate" placeholder="yyyy-mm-dd"
@@ -214,6 +228,13 @@
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar" (click)="datepicker.toggle()" type="button"></button>
               </div>
+            </div> -->
+            <div class="input-group">
+              <mat-form-field> 
+                <input matInput [matDatepicker]="picker" placeholder="dd/m/yyyy" [(ngModel)]="userMo.ToDate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
             </div>
           </div>
         <!-- <hr/> -->

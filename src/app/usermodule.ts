@@ -1,6 +1,6 @@
 export class Usermodule {
     public id:number;  
-    public CITIZEN_ID: string;
+    public CITIZEN_ID:string;
     public TITLE: string;
     public FIRST_NAME :string;
     public LAST_NAME:string;
@@ -12,8 +12,8 @@ export class Usermodule {
   isSelected: any;
     public UPDATE_NAME: string;
     public CREATE_BY : string;
-    public FromDate:string;
-    public ToDate:string;
+    public FromDate:any;
+    public ToDate:any;
  
 //     static(CITIZEN_ID:string,TITLE: string,FIRST_NAME:string,LAST_NAME:string,SEX:string,BLOOD:string,BIRTH_DATE:string,id:number) {
 //       this.id = id;
