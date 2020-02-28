@@ -6,6 +6,8 @@
   </div>
   <div class="col-md-6 col-md-offset-3">
     <div class="jumbotron">
+     
+
       <!-- <form [formGroup]="angForm" (ngSubmit)="postdata(angForm)" autocomplete="off"> -->
       <div>
         <div class="form-group">
@@ -59,6 +61,21 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
+            <label>วันเกิด</label>
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" placeholder="วันเกิด" [(ngModel)]="userMo.BIRTH_DATE">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+            <p *ngIf="BIRTH_DATE_Validators == true">{{BIRTH_DATE_Validators_value}}</p>
+        </div>
+          <!-- {{StartDate}} -->
+          <!-- <input matInput [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker> -->
+        </div>
+        <!-- <div class="col-md-6">
+          <div class="form-group">
             <label for="formGroupExampleInput">วันเกิด</label>
             <div class="input-group">
               <input class="form-control input-sm" autocomplete="off" placeholder="dd/mm/yyyy"
@@ -69,7 +86,7 @@
             </div>
             <p *ngIf="BIRTH_DATE_Validators == true">{{BIRTH_DATE_Validators_value}}</p>
           </div>
-        </div>
+        </div> -->
       </div> 
       <button type="button" (click)="postdata()" class="btn btn-primary">บันทึก</button>
     </div>

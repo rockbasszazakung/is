@@ -10,68 +10,75 @@ import {
   NgbDateStruct,
   NgbDateParserFormatter
 } from '@ng-bootstrap/ng-bootstrap';
-@Injectable()
-export class CustomAdapter extends NgbDateAdapter<string> {
+// @Injectable()
+// export class CustomAdapter extends NgbDateAdapter<string> {
 
-  readonly DELIMITER = '-';
+//   readonly DELIMITER = '-';
 
-  fromModel(value: string): NgbDateStruct {
-    let result: NgbDateStruct = null;
-    if (value) {
-      let date = value.split(this.DELIMITER);
-      result = {
-        day : parseInt(date[2], 10),
-        month : parseInt(date[1], 10),
-        year : parseInt(date[0], 10)
-      };
-    }
-    return result;
-  }
-  toModel(date: NgbDateStruct): string {
-    let result: string = null;
-    if (date) {
-      result = date.year + this.DELIMITER + date.month + this.DELIMITER + date.day;
-    }
-    return result;
-  }
-}
+//   fromModel(value: string): NgbDateStruct {
+//     let result: NgbDateStruct = null;
+//     if (value) {
+//       let date = value.split(this.DELIMITER);
+//       result = {
+//         day : parseInt(date[2], 10),
+//         month : parseInt(date[1], 10),
+//         year : parseInt(date[0], 10)
+//       };
+//     }
+//     return result;
+//   }
+//   toModel(date: NgbDateStruct): string {
+//     let result: string = null;
+//     let StartDate : any;
+//     if (date) {
+//     StartDate = date;
 
-@Injectable()
-export class CustomDateParserFormatter extends NgbDateParserFormatter {
+//       result = date.year + this.DELIMITER + date.month + this.DELIMITER + date.day;
+//     }
+//     return result;
+//   }
+// }
 
-  readonly DELIMITER = '/';
+// @Injectable()
+// export class CustomDateParserFormatter extends NgbDateParserFormatter {
 
-  parse(value: string): NgbDateStruct {
-    let result: NgbDateStruct = null;
-    if (value) {
-      let date = value.split(this.DELIMITER);
-      result = {
-        day : parseInt(date[0], 10),
-        month : parseInt(date[1], 10),
-        year : parseInt(date[2], 10)
-      };
-    }
-    return result;
-  }
+//   readonly DELIMITER = '/';
 
-  format(date: NgbDateStruct): string {
-    let result: string = null;
-    if (date) {
-      result = date.day + this.DELIMITER + date.month + this.DELIMITER + date.year;
-    }
-    return result;
-  }
-}
+//   parse(value: string): NgbDateStruct {
+//     let result: NgbDateStruct = null;
+//     if (value) {
+//       let date = value.split(this.DELIMITER);
+//       result = {
+//         day : parseInt(date[0], 10),
+//         month : parseInt(date[1], 10),
+//         year : parseInt(date[2], 10)
+//       };
+//     }
+//     return result;
+//   }
+
+//   format(date: NgbDateStruct): string {
+//     let result: string = null;
+//     if (date) {
+//       result = date.day + this.DELIMITER + date.month + this.DELIMITER + date.year;
+//     }
+//     return result;
+//   }
+// }
 @Component({
   selector: 'app-createuser',
   templateUrl: './createuser.component.html',
   styleUrls: ['./createuser.component.css'],
   providers: [
-    {provide: NgbDateAdapter, useClass: CustomAdapter},
-    {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter}
   ]
 })
 export class CreateuserComponent implements OnInit {
+  //  HBD :any;
+  // day = (this.valueTest.getDay()+1);
+  // month =this.valueTest.getMonth();
+  // year = this.valueTest.getFullYear();
+  
+  // StartDate :any;
   // boolean
   CITIZEN_ID_Validators:boolean;
   TITLE_Validators:boolean;
@@ -119,6 +126,7 @@ export class CreateuserComponent implements OnInit {
   ngOnInit() {
     this.userMo = new Usermodule();
     console.log(this.userMo);
+   
   }
   postdata()
   {
@@ -133,15 +141,16 @@ export class CreateuserComponent implements OnInit {
       && this.FIRST_NAME_Validators == false && this.LAST_NAME_Validators == false && this.BLOOD_Validators == false
       && this.BIRTH_DATE_Validators == false ){
           console.log("wow wow");
-          let  CREATE_BY = localStorage.getItem('user');
-          this.userMo.CREATE_BY = CREATE_BY;
+          this.HBD();
+          this.CREATE_BY();
           this.dataService.userregistration(this.userMo)
             .pipe(first())
             .subscribe(
                 () => {
+                  this.router.navigate(['dashboard']);
           },
           () => {
-            this.router.navigate(['dashboard']);
+                  this.router.navigate(['dashboard']);
           });
           }
     
@@ -201,5 +210,17 @@ export class CreateuserComponent implements OnInit {
     }else{
       this.BIRTH_DATE_Validators = false;
     }
+  }
+  HBD(){
+    console.log("เดิม",this.userMo.BIRTH_DATE)
+    let day = this.userMo.BIRTH_DATE.getDate();
+    let month =(this.userMo.BIRTH_DATE.getMonth()+1);
+    let year = this.userMo.BIRTH_DATE.getFullYear();
+    this.userMo.BIRTH_DATE = year + '/' + month + '/' +  day;
+    console.log("ใหม่",this.userMo.BIRTH_DATE);
+  }
+  CREATE_BY(){
+    let  CREATE_BY = localStorage.getItem('user');
+    this.userMo.CREATE_BY = CREATE_BY;
   }
 }
