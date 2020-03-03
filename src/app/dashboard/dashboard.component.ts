@@ -21,8 +21,6 @@ export class DashboardComponent implements OnInit {
   userDat: Usermodule;
   userMo: Usermodule;
   data:number;
-  // FromDate:string;
-  // ToDate:string;
   BLOOD = [
     {id: 1, name: 'เอ'},
     {id: 2, name: 'บี'},
@@ -41,8 +39,6 @@ export class DashboardComponent implements OnInit {
   hoveredDate: NgbDate;
   fromDate: NgbDate;
   toDate: NgbDate;
-  BIRTH_DATE_START: string;
-
   constructor(private fb: FormBuilder,private dataService: DataserviceService,private router:Router, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
     this.fromDate = undefined; 
     this.toDate = undefined;
@@ -69,7 +65,6 @@ export class DashboardComponent implements OnInit {
   isRange(date: NgbDate) {
     return date.equals(this.fromDate) || date.equals(this.toDate) || this.isInside(date) || this.isHovered(date);
   }
-
   validateInput(currentValue: NgbDate, input: string): NgbDate {
     const parsed = this.formatter.parse(input);
     return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
@@ -78,6 +73,8 @@ export class DashboardComponent implements OnInit {
     this.userMo = new Usermodule();
     this.getValueWithAsync();
     this.getuserdetails();
+
+
   }
 getuserdetails()
 {
@@ -140,12 +137,12 @@ postdata()
       let dayFromDate   = BIRTH_DATE_START2.getDate();
       let monthFromDate = BIRTH_DATE_START2.getMonth()+1;
       let yearFromDate  = BIRTH_DATE_START2.getFullYear();
-      this.BIRTH_DATE_START  =  yearFromDate + '-' + monthFromDate + '-' +  dayFromDate;
+      BIRTH_DATE_START  =  yearFromDate + '-' + monthFromDate + '-' +  dayFromDate;
     } 
     if(BIRTH_DATE_END == undefined){
       BIRTH_DATE_END = undefined;
     }else{
-      var BIRTH_DATE_END2 = new Date(BIRTH_DATE_START);
+      var BIRTH_DATE_END2 = new Date(BIRTH_DATE_END);
       let dayToDate   = BIRTH_DATE_END2.getDate();
       let monthToDate = BIRTH_DATE_END2.getMonth()+1;
       let yearToDate  = BIRTH_DATE_END2.getFullYear();
@@ -162,11 +159,9 @@ deleteuserdetails(id){
   this.dataService.removeEmployee(id)
   .subscribe( () => {
     this.userDat.id;
-    this.router.navigate(['create']);
-    },
-    () => {
-    this.router.navigate(['dashboard']);
-    });
+    alert("ลบข้อมูลสำเร็จ");
+    location.href = "http://localhost:4200/dashboard";
+  })   
     }
 updateUser(user: Usermodule): void {
   window.localStorage.removeItem("editId");

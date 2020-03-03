@@ -121,7 +121,6 @@
             <input type="text" onkeyup="searchid()" [(ngModel)]="userMo.CITIZEN_ID"  class="form-control input-sm"
             onkeyup="isNumberchar(this.value,this)"  placeholder="เลขบัตรประชาชน"  />
           </div>
-          
         </div>
         <div class="col-md-4">
           <div class="form-group">
@@ -136,7 +135,6 @@
           </div>
         </div>
       </div>
-
       <div class="row">
         <div class="col-md-4">
           <div class="form-group">
@@ -161,26 +159,21 @@
           </div>
         </div>
       </div>
-      
       <div class="row">
           <div class="col-md-4">
             <label>วันเกิด</label>
             <div class="input-group">
-              <!-- <mat-form-field>  -->
-                <input class="form-control input-sm" matInput [matDatepicker]="picker1" placeholder="dd/m/yyyy" [(ngModel)]="userMo.FromDate">
+                <input class="form-control input-sm" matInput [matDatepicker]="picker1" placeholder="ว/ด/ป" [(ngModel)]="userMo.FromDate">
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
-            <!-- </mat-form-field> -->
             </div>
           </div>
           <div class="col-md-4">
             <label>ถึง</label>
             <div class="input-group">
-              <!-- <mat-form-field>  -->
-                <input class="form-control input-sm" matInput [matDatepicker]="picker" placeholder="dd/m/yyyy" [(ngModel)]="userMo.ToDate">
+                <input class="form-control input-sm" matInput [matDatepicker]="picker" placeholder="ว/ด/ป" [(ngModel)]="userMo.ToDate">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-            <!-- </mat-form-field> -->
             </div>
           </div>
       </div>
