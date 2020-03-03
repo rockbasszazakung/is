@@ -74,6 +74,7 @@ import {
   ]
 })
 export class CreateuserComponent implements OnInit {
+ 
   //  HBD :any;
   // day = (this.valueTest.getDay()+1);
   // month =this.valueTest.getMonth();
@@ -131,6 +132,7 @@ export class CreateuserComponent implements OnInit {
   }
   postdata()
   {
+    // this.HBD();
     this.Validators_CITIZEN_ID();
     this.Validators_TITLE();
     this.Validators_SEX();
@@ -251,10 +253,13 @@ export class CreateuserComponent implements OnInit {
     }
   }
   HBD(){
-    console.log("เดิม",this.userMo.BIRTH_DATE)
-    let day = this.userMo.BIRTH_DATE.getDate();
-    let month =(this.userMo.BIRTH_DATE.getMonth()+1);
-    let year = this.userMo.BIRTH_DATE.getFullYear();
+    let hbd = this.userMo.BIRTH_DATE;
+    var hbd2 = new Date(hbd);
+    console.log("dataa",hbd2);
+    // console.log("เดิม",this.userMo.BIRTH_DATE)
+    var day = hbd2.getDate();
+    let month =(hbd2.getMonth()+1);
+    let year = hbd2.getFullYear();
     this.userMo.BIRTH_DATE = year + '-' + month + '-' +  day;
     console.log("ใหม่",this.userMo.BIRTH_DATE);
   }

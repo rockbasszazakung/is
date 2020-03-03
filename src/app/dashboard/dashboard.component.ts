@@ -8,7 +8,6 @@ import { Subject } from 'rxjs';
 // import { Person } from '../person';
 import { FormControl, FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import {NgbDate, NgbCalendar, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
-// import 'rxjs/add/operator/map';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -18,17 +17,12 @@ import {NgbDate, NgbCalendar, NgbDateParserFormatter} from '@ng-bootstrap/ng-boo
 
 export class DashboardComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
-  // persons: Person[] = [];
-  // We use this trigger because fetching the list of persons can be quite long,
-  // thus we ensure the data is fetched before rendering
-  // dtTrigger: Subject = new Subject();
-  // dtOptions: DataTables.Settings = {};
   form: FormGroup;
   userDat: Usermodule;
   userMo: Usermodule;
   data:number;
-  FromDate:string;
-  ToDate:string;
+  // FromDate:string;
+  // ToDate:string;
   BLOOD = [
     {id: 1, name: 'เอ'},
     {id: 2, name: 'บี'},
@@ -47,6 +41,8 @@ export class DashboardComponent implements OnInit {
   hoveredDate: NgbDate;
   fromDate: NgbDate;
   toDate: NgbDate;
+  BIRTH_DATE_START: string;
+
   constructor(private fb: FormBuilder,private dataService: DataserviceService,private router:Router, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
     this.fromDate = undefined; 
     this.toDate = undefined;
@@ -80,29 +76,9 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit() {
     this.userMo = new Usermodule();
-    // this.dtOptions = {
-    //   pagingType: 'full_numbers',
-    //   pageLength: 2
-    // };
-    // this.http.get('data/data.json')
-    //   .map(this.extractData)
-    //   .subscribe(persons => {
-    //     this.persons = persons;
-    //     // Calling the DT trigger to manually render the table
-    //     this.dtTrigger.next();
-    //   });
     this.getValueWithAsync();
     this.getuserdetails();
   }
-  // ngOnDestroy(): void {
-  //   // Do not forget to unsubscribe the event
-  //   this.dtTrigger.unsubscribe();
-  // }
-
-  // private extractData(res: Response) {
-  //   const body = res.json();
-  //   return body.data || {};
-  // }
 getuserdetails()
 {
   this.dataService.getAllUsers()
@@ -155,23 +131,25 @@ postdata()
     let LAST_NAME       :any = this.userMo.LAST_NAME;
     let SEX             :any = this.userMo.SEX;
     let BLOOD           :any = this.userMo.BLOOD;
-    let BIRTH_DATE_START:any = this.userMo.FromDate;
-    let BIRTH_DATE_END  :any = this.userMo.ToDate;
+    var BIRTH_DATE_START:string = this.userMo.FromDate;
+    var BIRTH_DATE_END  :string = this.userMo.ToDate;
     if(BIRTH_DATE_START == undefined){
       BIRTH_DATE_START = undefined;
     }else{
-      let dayFromDate   = this.userMo.FromDate.getDate();
-      let monthFromDate = (this.userMo.FromDate.getMonth()+1);
-      let yearFromDate  = this.userMo.FromDate.getFullYear();
-      BIRTH_DATE_START  =  yearFromDate + '/' + monthFromDate + '/' +  dayFromDate;
+      var BIRTH_DATE_START2 = new Date(BIRTH_DATE_START);
+      let dayFromDate   = BIRTH_DATE_START2.getDate();
+      let monthFromDate = BIRTH_DATE_START2.getMonth()+1;
+      let yearFromDate  = BIRTH_DATE_START2.getFullYear();
+      this.BIRTH_DATE_START  =  yearFromDate + '-' + monthFromDate + '-' +  dayFromDate;
     } 
     if(BIRTH_DATE_END == undefined){
       BIRTH_DATE_END = undefined;
     }else{
-      let dayToDate   = this.userMo.ToDate.getDate();
-      let monthToDate = (this.userMo.ToDate.getMonth()+1);
-      let yearToDate  = this.userMo.ToDate.getFullYear();
-      BIRTH_DATE_END  =  yearToDate + '/' + monthToDate + '/' +  dayToDate;
+      var BIRTH_DATE_END2 = new Date(BIRTH_DATE_START);
+      let dayToDate   = BIRTH_DATE_END2.getDate();
+      let monthToDate = BIRTH_DATE_END2.getMonth()+1;
+      let yearToDate  = BIRTH_DATE_END2.getFullYear();
+      BIRTH_DATE_END  =  yearToDate + '-' + monthToDate + '-' +  dayToDate;
     }
     console.log("ต้น", BIRTH_DATE_START);
     console.log("หลัง",BIRTH_DATE_END);
@@ -182,11 +160,14 @@ postdata()
   }
 deleteuserdetails(id){
   this.dataService.removeEmployee(id)
-  .subscribe( data => {
+  .subscribe( () => {
     this.userDat.id;
+    this.router.navigate(['create']);
+    },
+    () => {
     this.router.navigate(['dashboard']);
-    })
-  }
+    });
+    }
 updateUser(user: Usermodule): void {
   window.localStorage.removeItem("editId");
   window.localStorage.setItem("editId", user.id.toString());

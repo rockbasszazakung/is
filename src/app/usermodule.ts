@@ -6,7 +6,7 @@ export class Usermodule {
     public LAST_NAME:string;
     public SEX:string;
     public BLOOD:string;
-    public BIRTH_DATE:any;
+    public BIRTH_DATE:string;
   static map: any;
   static filter: any;
   isSelected: any;

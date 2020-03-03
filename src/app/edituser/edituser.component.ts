@@ -153,33 +153,33 @@ export class EdituserComponent implements OnInit {
       this.CITIZEN_ID_Validators_value ="ท่านกรอกเลขบัตรประชาชนมากกว่า13ตัว";
     }
     else if(this.userMo.CITIZEN_ID.length == 13){
-      let p_iPID = this.userMo.CITIZEN_ID;
-      var total = 0;
-      var iPID;
-      var chk;
-      var Validchk;
-      iPID = p_iPID.replace(/-/g, "");
-      Validchk = iPID.substr(12, 1);
-      var j = 0;
-      var pidcut;
-      for (var n = 0; n < 12; n++) {
-          pidcut = parseInt(iPID.substr(j, 1));
-          total = (total + ((pidcut) * (13 - n)));
-          j++;
-      }
-      chk = 11 - (total % 11);
-      if (chk == 10) {
-          chk = 0;
-      } else if (chk == 11) {
-          chk = 1;
-      }
-      if (chk == Validchk) {
-        this.CITIZEN_ID_Validators = false;
-      } else {
-        this.CITIZEN_ID_Validators = true;
-        this.CITIZEN_ID_Validators_value ="กรุณากรองเลขบัตรประชาชนให้ถูกต้อง";
-      }
-  
+      // let p_iPID = this.userMo.CITIZEN_ID;
+      // var total = 0;
+      // var iPID;
+      // var chk;
+      // var Validchk;
+      // iPID = p_iPID.replace(/-/g, "");
+      // Validchk = iPID.substr(12, 1);
+      // var j = 0;
+      // var pidcut;
+      // for (var n = 0; n < 12; n++) {
+      //     pidcut = parseInt(iPID.substr(j, 1));
+      //     total = (total + ((pidcut) * (13 - n)));
+      //     j++;
+      // }
+      // chk = 11 - (total % 11);
+      // if (chk == 10) {
+      //     chk = 0;
+      // } else if (chk == 11) {
+      //     chk = 1;
+      // }
+      // if (chk == Validchk) {
+      //   this.CITIZEN_ID_Validators = false;
+      // } else {
+      //   this.CITIZEN_ID_Validators = true;
+      //   this.CITIZEN_ID_Validators_value ="กรุณากรองเลขบัตรประชาชนให้ถูกต้อง";
+      // }
+      this.CITIZEN_ID_Validators = false;
     }
   }
   Validators_TITLE(){
@@ -231,11 +231,15 @@ export class EdituserComponent implements OnInit {
     }
   }
   HBD(){
-    console.log("เดิม",this.userMo.BIRTH_DATE)
-    let day = this.userMo.BIRTH_DATE.getDate();
-    let month =(this.userMo.BIRTH_DATE.getMonth()+1);
-    let year = this.userMo.BIRTH_DATE.getFullYear();
+    let hbd = this.userMo.BIRTH_DATE;
+    var hbd2 = new Date(hbd);
+    console.log("dataa",hbd2);
+    // console.log("เดิม",this.userMo.BIRTH_DATE)
+    var day = hbd2.getDate();
+    let month =(hbd2.getMonth()+1);
+    let year = hbd2.getFullYear();
     this.userMo.BIRTH_DATE = year + '-' + month + '-' +  day;
+    console.log("ใหม่",this.userMo.BIRTH_DATE);
   }
   UPDATE_NAME(){
     let  UPDATE_NAME = localStorage.getItem('user'); 
