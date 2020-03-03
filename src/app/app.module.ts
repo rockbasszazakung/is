@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-// import { RegistrationComponent } from './registration/registration.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreateuserComponent } from './createuser/createuser.component';
 import { EdituserComponent } from './edituser/edituser.component';
@@ -15,9 +14,6 @@ import { DataTablesModule } from 'angular-datatables';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import { MatDatepickerModule } from '@angular/material/datepicker';
-// import { DateAdapter } from '@angular/material';
-// import { MatSliderModule } from '@angular/material/slider';
 import {A11yModule} from '@angular/cdk/a11y';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {PortalModule} from '@angular/cdk/portal';
@@ -59,24 +55,13 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
+import { MomentDateAdapter2, MOMENT_DATE_FORMATS } from '../assets/moment-date-adapter2';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'DD/MM/YYYY',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    // RegistrationComponent,
     DashboardComponent,
     CreateuserComponent,
     EdituserComponent,
@@ -143,10 +128,9 @@ export const MY_FORMATS = {
     ScrollingModule
   ],
   providers: [
-    // { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    // { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-    { provide: MAT_DATE_LOCALE, useValue: 'th-TH', },
-    // { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
+    { provide: MAT_DATE_LOCALE, useValue: 'th-TH' },
+    { provide: MAT_DATE_FORMATS, useValue: MOMENT_DATE_FORMATS },
+    { provide: DateAdapter, useClass: MomentDateAdapter2 },
   ],
   bootstrap: [AppComponent]
 })
