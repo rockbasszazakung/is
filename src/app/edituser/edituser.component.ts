@@ -123,7 +123,7 @@ export class EdituserComponent implements OnInit {
     this.Validators_BIRTH_DATE();
     if(this.CITIZEN_ID_Validators == false && this.TITLE_Validators == false && this.SEX_Validators == false
       && this.FIRST_NAME_Validators == false && this.LAST_NAME_Validators == false && this.BLOOD_Validators==false
-      && this.BIRTH_DATE_Validators == false ){
+      && this.BIRTH_DATE_Validators == false){
           console.log("wow wow");
           this.HBD();
           this.UPDATE_NAME(); 
@@ -145,15 +145,41 @@ export class EdituserComponent implements OnInit {
     else if(this.userMo.CITIZEN_ID.length <13){
       console.log(this.userMo.CITIZEN_ID.length);
       this.CITIZEN_ID_Validators = true;
-      this.CITIZEN_ID_Validators_value ="กรอกเลขบัตรประชาชนน้อยกว่า13ตัว";
+      this.CITIZEN_ID_Validators_value ="ท่านกรอกเลขบัตรประชาชนน้อยกว่า13ตัว";
     } 
     else if(this.userMo.CITIZEN_ID.length >13){
       console.log(this.userMo.CITIZEN_ID.length);
       this.CITIZEN_ID_Validators = true;
-      this.CITIZEN_ID_Validators_value ="กรอกเลขบัตรประชาชนให้มากกว่า13ตัว";
+      this.CITIZEN_ID_Validators_value ="ท่านกรอกเลขบัตรประชาชนมากกว่า13ตัว";
     }
-    else{
-      this.CITIZEN_ID_Validators = false;
+    else if(this.userMo.CITIZEN_ID.length == 13){
+      let p_iPID = this.userMo.CITIZEN_ID;
+      var total = 0;
+      var iPID;
+      var chk;
+      var Validchk;
+      iPID = p_iPID.replace(/-/g, "");
+      Validchk = iPID.substr(12, 1);
+      var j = 0;
+      var pidcut;
+      for (var n = 0; n < 12; n++) {
+          pidcut = parseInt(iPID.substr(j, 1));
+          total = (total + ((pidcut) * (13 - n)));
+          j++;
+      }
+      chk = 11 - (total % 11);
+      if (chk == 10) {
+          chk = 0;
+      } else if (chk == 11) {
+          chk = 1;
+      }
+      if (chk == Validchk) {
+        this.CITIZEN_ID_Validators = false;
+      } else {
+        this.CITIZEN_ID_Validators = true;
+        this.CITIZEN_ID_Validators_value ="กรุณากรองเลขบัตรประชาชนให้ถูกต้อง";
+      }
+  
     }
   }
   Validators_TITLE(){
@@ -209,8 +235,7 @@ export class EdituserComponent implements OnInit {
     let day = this.userMo.BIRTH_DATE.getDate();
     let month =(this.userMo.BIRTH_DATE.getMonth()+1);
     let year = this.userMo.BIRTH_DATE.getFullYear();
-    this.userMo.BIRTH_DATE = year + '/' + month + '/' +  day;
-    console.log("ใหม่",this.userMo.BIRTH_DATE);
+    this.userMo.BIRTH_DATE = year + '-' + month + '-' +  day;
   }
   UPDATE_NAME(){
     let  UPDATE_NAME = localStorage.getItem('user'); 

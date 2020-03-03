@@ -6,7 +6,6 @@
     </div> 
     <div class="col-md-6 col-md-offset-3">
         <div class="jumbotron">
-            <!-- <form [formGroup]="angForm" (ngSubmit)="postdata(angForm)" autocomplete="off" > -->
                 <div>
                     <div class="form-group">
                         <label for="CITIZEN_ID">เลขที่บัตรประชาชน</label>
@@ -69,31 +68,20 @@
                             <p *ngIf="BLOOD_Validators == true">{{BLOOD_Validators_value}}</p>
                         </div>
                     </div>
-                    <!-- <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">วันเกิด</label>
-                            <div class="input-group">
-                                <input class="form-control input-sm" autocomplete="off" placeholder="dd/mm/yyyy" [(ngModel)]="userMo.BIRTH_DATE" id="BIRTH_DATE" [(ngModel)]="model2" ngbDatepicker #d2="ngbDatepicker">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button" ></button>
-                                </div>
-                            </div>
-                            <p *ngIf="BIRTH_DATE_Validators == true">{{BIRTH_DATE_Validators_value}}</p>
-                        </div>
-                    </div> -->
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>วันเกิด</label>
-                            <mat-form-field>
-                                <input matInput [matDatepicker]="picker" placeholder="dd/m/yyyy" [(ngModel)]="userMo.BIRTH_DATE">
+                            <!-- <mat-form-field> -->
+                                <div class="input-group">
+                                <input class="form-control input-sm"  matInput [matDatepicker]="picker" placeholder="dd/m/yyyy" [(ngModel)]="userMo.BIRTH_DATE">
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
-                            </mat-form-field>
+                            <!-- </mat-form-field> -->
+                            </div>
                         <p *ngIf="BIRTH_DATE_Validators == true">{{BIRTH_DATE_Validators_value}}</p>
                     </div>
                 </div>        
                 <button type="button" (click)="postdata()" class="btn btn-primary" >บันทึก</button>
-            <!-- </form> -->
         </div>
     </div>
     <div class="col-md-3">
