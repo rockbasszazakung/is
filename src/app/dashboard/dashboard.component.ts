@@ -1,12 +1,14 @@
 import { Usermodule } from './../usermodule';
-import { Component, OnInit, ViewChild, PipeTransform, Injectable } from '@angular/core';
+import { Component, OnInit,OnDestroy} from '@angular/core';
 import { DataserviceService } from '../dataservice.service';
-import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+// import { Observable } from 'rxjs';
+import { Http, Response } from '@angular/http';
+import { Subject } from 'rxjs';
+// import { Person } from '../person';
 import { FormControl, FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import {NgbDate, NgbCalendar, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
-  
+// import 'rxjs/add/operator/map';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -16,6 +18,11 @@ import {NgbDate, NgbCalendar, NgbDateParserFormatter} from '@ng-bootstrap/ng-boo
 
 export class DashboardComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
+  // persons: Person[] = [];
+  // We use this trigger because fetching the list of persons can be quite long,
+  // thus we ensure the data is fetched before rendering
+  // dtTrigger: Subject = new Subject();
+  // dtOptions: DataTables.Settings = {};
   form: FormGroup;
   userDat: Usermodule;
   userMo: Usermodule;
@@ -73,50 +80,74 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit() {
     this.userMo = new Usermodule();
-    this.getuserdetails()
+    // this.dtOptions = {
+    //   pagingType: 'full_numbers',
+    //   pageLength: 2
+    // };
+    // this.http.get('data/data.json')
+    //   .map(this.extractData)
+    //   .subscribe(persons => {
+    //     this.persons = persons;
+    //     // Calling the DT trigger to manually render the table
+    //     this.dtTrigger.next();
+    //   });
+    this.getValueWithAsync();
+    this.getuserdetails();
   }
+  // ngOnDestroy(): void {
+  //   // Do not forget to unsubscribe the event
+  //   this.dtTrigger.unsubscribe();
+  // }
 
+  // private extractData(res: Response) {
+  //   const body = res.json();
+  //   return body.data || {};
+  // }
 getuserdetails()
 {
   this.dataService.getAllUsers()
   .subscribe( data => {
   this.userDat = data;
-  });
+    });
   } 
+  async getValueWithAsync() {
+    const value = <any>await this.dataService.getAllUsers();
+    console.log("async result",value);
+  }
 onCheckboxChange(e) {
   const checkArray: FormArray = this.form.get('checkArray') as FormArray;
   if (e.target.checked) {
     checkArray.push(new FormControl(e.target.value));
   } else {
     let i: number = 0;
-    checkArray.controls.forEach((item: FormControl) => {
-      if (item.value == e.target.value) {
-        checkArray.removeAt(i);
-        return;
-      }
-      i++;
-    });
-  }
+      checkArray.controls.forEach((item: FormControl) => {
+        if (item.value == e.target.value) {
+          checkArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
   }
 clear(){
-this.userMo.CITIZEN_ID = undefined;
-this.userMo.FIRST_NAME=undefined;
-this.userMo.LAST_NAME=undefined;
-this.userMo.SEX=undefined;
-this.userMo.BLOOD=undefined;
-this.userMo.TITLE=undefined;
-this.userMo.FromDate=undefined;
-this.userMo.ToDate=undefined;
+  this.userMo.CITIZEN_ID = undefined;
+  this.userMo.FIRST_NAME = undefined;
+  this.userMo.LAST_NAME  = undefined;
+  this.userMo.SEX        = undefined;
+  this.userMo.BLOOD      = undefined;
+  this.userMo.TITLE      = undefined;
+  this.userMo.FromDate   = undefined;
+  this.userMo.ToDate     = undefined;
   }
 submitForm() {
   console.log(this.form.value)
   this.form.value.checkArray.forEach(id => {
     console.log(id);
     this.deleteuserdetails(id);
-  });
+    });
   }
 postdata()
-  {
+  { 
     console.log(this.userMo)
     let CITIZEN_ID      :any = this.userMo.CITIZEN_ID; 
     let TITLE           :any = this.userMo.TITLE;
@@ -129,18 +160,18 @@ postdata()
     if(BIRTH_DATE_START == undefined){
       BIRTH_DATE_START = undefined;
     }else{
-      let day1 = this.userMo.FromDate.getDate();
-      let month1= (this.userMo.FromDate.getMonth()+1);
-      let year1 =this.userMo.FromDate.getFullYear();
-      BIRTH_DATE_START =  year1 + '/' + month1 + '/' +  day1;
+      let dayFromDate   = this.userMo.FromDate.getDate();
+      let monthFromDate = (this.userMo.FromDate.getMonth()+1);
+      let yearFromDate  = this.userMo.FromDate.getFullYear();
+      BIRTH_DATE_START  =  yearFromDate + '/' + monthFromDate + '/' +  dayFromDate;
     } 
     if(BIRTH_DATE_END == undefined){
       BIRTH_DATE_END = undefined;
     }else{
-      let day2 = this.userMo.ToDate.getDate();
-      let month2= (this.userMo.ToDate.getMonth()+1);
-      let year2 =this.userMo.ToDate.getFullYear();
-      BIRTH_DATE_END =  year2 + '/' + month2 + '/' +  day2;
+      let dayToDate   = this.userMo.ToDate.getDate();
+      let monthToDate = (this.userMo.ToDate.getMonth()+1);
+      let yearToDate  = this.userMo.ToDate.getFullYear();
+      BIRTH_DATE_END  =  yearToDate + '/' + monthToDate + '/' +  dayToDate;
     }
     console.log("ต้น", BIRTH_DATE_START);
     console.log("หลัง",BIRTH_DATE_END);
