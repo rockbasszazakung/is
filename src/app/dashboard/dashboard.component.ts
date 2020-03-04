@@ -2,10 +2,10 @@ import { Usermodule } from './../usermodule';
 import { Component, OnInit,OnDestroy} from '@angular/core';
 import { DataserviceService } from '../dataservice.service';
 import { Router } from '@angular/router';
-// import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 import { Http, Response } from '@angular/http';
-import { Subject } from 'rxjs';
-// import { Person } from '../person';
 import { FormControl, FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import {NgbDate, NgbCalendar, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 @Component({
@@ -15,8 +15,10 @@ import {NgbDate, NgbCalendar, NgbDateParserFormatter} from '@ng-bootstrap/ng-boo
   }
 )
 
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnDestroy, OnInit {
+  
   dtOptions: DataTables.Settings = {};
+  dtTrigger = new Subject();
   form: FormGroup;
   userDat: Usermodule;
   userMo: Usermodule;
@@ -72,17 +74,34 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.userMo = new Usermodule();
     this.getValueWithAsync();
-    this.getuserdetails();
+    // this.getuserdetails();
+    this.dtOptions = {
+        pagingType: 'full_numbers',
+        pageLength: 10
+      };
 
-
+      this.dataService.getAllUsers()
+      .subscribe(data => {
+        this.userDat = data;
+        // Calling the DT trigger to manually render the table
+        this.dtTrigger.next();
+      });
   }
-getuserdetails()
-{
-  this.dataService.getAllUsers()
-  .subscribe( data => {
-  this.userDat = data;
-    });
-  } 
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
+  private extractData(res: Response) {
+    const body = res.json();
+    return body.data || {};
+  }
+// getuserdetails()
+// {
+//   this.dataService.getAllUsers()
+//   .subscribe( data => {
+//   this.userDat = data;
+//     });
+//   } 
   async getValueWithAsync() {
     const value = <any>await this.dataService.getAllUsers();
     console.log("async result",value);
@@ -97,8 +116,7 @@ onCheckboxChange(e) {
         if (item.value == e.target.value) {
           checkArray.removeAt(i);
           return;
-        }
-        i++;
+        }i++;
       });
     }
   }
