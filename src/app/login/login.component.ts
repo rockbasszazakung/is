@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
           data => {
+                alert("เข้าสู่ระบบสำเร็จ")
                 const redirect = this.dataService.redirectUrl ? this.dataService.redirectUrl : '/dashboard';
                 this.router.navigate([redirect]);
  

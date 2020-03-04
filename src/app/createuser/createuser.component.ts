@@ -1,71 +1,10 @@
-import { logging } from 'protractor';
-import { Component, OnInit, Injectable } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators, NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup} from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { DataserviceService } from '../dataservice.service';
 import {Usermodule} from '../usermodule';
-import {
-  NgbCalendar,
-  NgbDateAdapter,
-  NgbDateStruct,
-  NgbDateParserFormatter
-} from '@ng-bootstrap/ng-bootstrap';
-// @Injectable()
-// export class CustomAdapter extends NgbDateAdapter<string> {
 
-//   readonly DELIMITER = '-';
-
-//   fromModel(value: string): NgbDateStruct {
-//     let result: NgbDateStruct = null;
-//     if (value) {
-//       let date = value.split(this.DELIMITER);
-//       result = {
-//         day : parseInt(date[2], 10),
-//         month : parseInt(date[1], 10),
-//         year : parseInt(date[0], 10)
-//       };
-//     }
-//     return result;
-//   }
-//   toModel(date: NgbDateStruct): string {
-//     let result: string = null;
-//     let StartDate : any;
-//     if (date) {
-//     StartDate = date;
-
-//       result = date.year + this.DELIMITER + date.month + this.DELIMITER + date.day;
-//     }
-//     return result;
-//   }
-// }
-
-// @Injectable()
-// export class CustomDateParserFormatter extends NgbDateParserFormatter {
-
-//   readonly DELIMITER = '/';
-
-//   parse(value: string): NgbDateStruct {
-//     let result: NgbDateStruct = null;
-//     if (value) {
-//       let date = value.split(this.DELIMITER);
-//       result = {
-//         day : parseInt(date[0], 10),
-//         month : parseInt(date[1], 10),
-//         year : parseInt(date[2], 10)
-//       };
-//     }
-//     return result;
-//   }
-
-//   format(date: NgbDateStruct): string {
-//     let result: string = null;
-//     if (date) {
-//       result = date.day + this.DELIMITER + date.month + this.DELIMITER + date.year;
-//     }
-//     return result;
-//   }
-// }
 @Component({
   selector: 'app-createuser',
   templateUrl: './createuser.component.html',
@@ -74,13 +13,6 @@ import {
   ]
 })
 export class CreateuserComponent implements OnInit {
- 
-  //  HBD :any;
-  // day = (this.valueTest.getDay()+1);
-  // month =this.valueTest.getMonth();
-  // year = this.valueTest.getFullYear();
-  
-  // StartDate :any;
   // boolean
   CITIZEN_ID_Validators:boolean;
   TITLE_Validators:boolean;
@@ -119,7 +51,6 @@ export class CreateuserComponent implements OnInit {
     {id:3,name:'นางสาว'}
   ]
   constructor(private dataService: DataserviceService,private router:Router) {
-
   }
   onReset() {
     this.submitted = false;
@@ -127,12 +58,9 @@ export class CreateuserComponent implements OnInit {
 }
   ngOnInit() {
     this.userMo = new Usermodule();
-    console.log(this.userMo);
-   
   }
   postdata()
   {
-    // this.HBD();
     this.Validators_CITIZEN_ID();
     this.Validators_TITLE();
     this.Validators_SEX();
@@ -143,23 +71,22 @@ export class CreateuserComponent implements OnInit {
     if(this.CITIZEN_ID_Validators == false && this.TITLE_Validators == false && this.SEX_Validators == false
       && this.FIRST_NAME_Validators == false && this.LAST_NAME_Validators == false && this.BLOOD_Validators == false
       && this.BIRTH_DATE_Validators == false ){
-          console.log("wow wow");
-          console.log(this.userMo.BIRTH_DATE);
           this.HBD();
           this.CREATE_BY();
           this.dataService.userregistration(this.userMo)
             .pipe(first())
             .subscribe(
                 () => {
-                  // this.router.navigate(['dashboard']);
+                  alert("เพิ่มข้อมูลสำเร็จ");
+                  this.router.navigate(['dashboard']);
           },
           () => {
-                  // this.router.navigate(['dashboard']);
+                  alert("เพิ่มข้อมูลสำเร็จ");
+                  this.router.navigate(['dashboard']);
           });
           }
     
   }
-  // this.userMo.CITIZEN_ID == undefined ||this.userMo.CITIZEN_ID == ''
   Validators_CITIZEN_ID(){
     if(this.userMo.CITIZEN_ID == undefined ||this.userMo.CITIZEN_ID == ''){
       this.CITIZEN_ID_Validators = true;

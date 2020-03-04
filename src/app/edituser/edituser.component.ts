@@ -1,5 +1,5 @@
 import { Component, OnInit, Injectable } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { DataserviceService } from '../dataservice.service';
@@ -124,13 +124,13 @@ export class EdituserComponent implements OnInit {
     if(this.CITIZEN_ID_Validators == false && this.TITLE_Validators == false && this.SEX_Validators == false
       && this.FIRST_NAME_Validators == false && this.LAST_NAME_Validators == false && this.BLOOD_Validators==false
       && this.BIRTH_DATE_Validators == false){
-          console.log("wow wow");
           this.HBD();
           this.UPDATE_NAME(); 
           this.dataService.updateuserdetails(this.userMo)
           .pipe(first())
           .subscribe(
               () => {
+                alert("เเก้ไขสำเร็จ");
                 this.router.navigate(['dashboard']);
               },
               () => {
@@ -153,33 +153,33 @@ export class EdituserComponent implements OnInit {
       this.CITIZEN_ID_Validators_value ="ท่านกรอกเลขบัตรประชาชนมากกว่า13ตัว";
     }
     else if(this.userMo.CITIZEN_ID.length == 13){
-      // let p_iPID = this.userMo.CITIZEN_ID;
-      // var total = 0;
-      // var iPID;
-      // var chk;
-      // var Validchk;
-      // iPID = p_iPID.replace(/-/g, "");
-      // Validchk = iPID.substr(12, 1);
-      // var j = 0;
-      // var pidcut;
-      // for (var n = 0; n < 12; n++) {
-      //     pidcut = parseInt(iPID.substr(j, 1));
-      //     total = (total + ((pidcut) * (13 - n)));
-      //     j++;
-      // }
-      // chk = 11 - (total % 11);
-      // if (chk == 10) {
-      //     chk = 0;
-      // } else if (chk == 11) {
-      //     chk = 1;
-      // }
-      // if (chk == Validchk) {
-      //   this.CITIZEN_ID_Validators = false;
-      // } else {
-      //   this.CITIZEN_ID_Validators = true;
-      //   this.CITIZEN_ID_Validators_value ="กรุณากรองเลขบัตรประชาชนให้ถูกต้อง";
-      // }
-      this.CITIZEN_ID_Validators = false;
+      let p_iPID = this.userMo.CITIZEN_ID;
+      var total = 0;
+      var iPID;
+      var chk;
+      var Validchk;
+      iPID = p_iPID.replace(/-/g, "");
+      Validchk = iPID.substr(12, 1);
+      var j = 0;
+      var pidcut;
+      for (var n = 0; n < 12; n++) {
+          pidcut = parseInt(iPID.substr(j, 1));
+          total = (total + ((pidcut) * (13 - n)));
+          j++;
+      }
+      chk = 11 - (total % 11);
+      if (chk == 10) {
+          chk = 0;
+      } else if (chk == 11) {
+          chk = 1;
+      }
+      if (chk == Validchk) {
+        this.CITIZEN_ID_Validators = false;
+      } else {
+        this.CITIZEN_ID_Validators = true;
+        this.CITIZEN_ID_Validators_value ="กรุณากรองเลขบัตรประชาชนให้ถูกต้อง";
+      }
+      // this.CITIZEN_ID_Validators = false;
     }
   }
   Validators_TITLE(){
