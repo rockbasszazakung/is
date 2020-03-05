@@ -1,11 +1,13 @@
 import { Usermodule } from './../usermodule';
-import { Component, OnInit,OnDestroy} from '@angular/core';
+import { Component, OnInit,OnDestroy,ViewChild} from '@angular/core';
 import { DataserviceService } from '../dataservice.service';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
+import { DataTableDirective } from 'angular-datatables';
+// import { DataserviceService } from '../dataservice.service';
 import { FormControl, FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import {NgbDate, NgbCalendar, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 @Component({
@@ -16,7 +18,14 @@ import {NgbDate, NgbCalendar, NgbDateParserFormatter} from '@ng-bootstrap/ng-boo
 )
 
 export class DashboardComponent implements OnDestroy, OnInit {
-  
+  searchObj = {
+    ConfigName: ""
+    , ConfigDetailName: ""
+    , Status: ""
+  };
+  configMasterDataModelRes:any;
+  @ViewChild(DataTableDirective, {static: false})
+  dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
   dtTrigger = new Subject();
   form: FormGroup;
@@ -41,7 +50,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   hoveredDate: NgbDate;
   fromDate: NgbDate;
   toDate: NgbDate;
-  constructor(private fb: FormBuilder,private dataService: DataserviceService,private router:Router, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
+  constructor(private fb: FormBuilder,private masterdataservice: DataserviceService,private dataService: DataserviceService,private router:Router, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
     this.fromDate = undefined; 
     this.toDate = undefined;
     this.form = this.fb.group({checkArray: this.fb.array([],[])});
@@ -73,39 +82,26 @@ export class DashboardComponent implements OnDestroy, OnInit {
   }
   ngOnInit() {
     this.userMo = new Usermodule();
-    this.getValueWithAsync();
-    // this.getuserdetails();
+    this.setdtOptions();
+    this.getuserdetails();
+  }
+  setdtOptions(){
     this.dtOptions = {
-        pagingType: 'full_numbers',
-        pageLength: 10
-      };
-
-      this.dataService.getAllUsers()
-      .subscribe(data => {
-        this.userDat = data;
-        // Calling the DT trigger to manually render the table
-        this.dtTrigger.next();
-      });
+      pagingType: 'full_numbers',
+      pageLength: 10
+    };
   }
   ngOnDestroy(): void {
-    // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
   }
-  private extractData(res: Response) {
-    const body = res.json();
-    return body.data || {};
-  }
-// getuserdetails()
-// {
-//   this.dataService.getAllUsers()
-//   .subscribe( data => {
-//   this.userDat = data;
-//     });
-//   } 
-  async getValueWithAsync() {
-    const value = <any>await this.dataService.getAllUsers();
-    console.log("async result",value);
-  }
+getuserdetails()
+{
+  this.dataService.getAllUsers()
+  .subscribe( data => {
+  this.userDat = data;
+  this.dtTrigger.next();
+    });
+  } 
 onCheckboxChange(e) {
   const checkArray: FormArray = this.form.get('checkArray') as FormArray;
   if (e.target.checked) {
@@ -137,8 +133,15 @@ submitForm() {
     this.deleteuserdetails(id);
     });
   }
+ngdestroy(){
+  this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+    dtInstance.destroy();
+    this.postdata();
+  });
+}
 postdata()
   { 
+    
     console.log(this.userMo)
     let CITIZEN_ID      :any = this.userMo.CITIZEN_ID; 
     let TITLE           :any = this.userMo.TITLE;
@@ -171,7 +174,9 @@ postdata()
     this.dataService.searchAll(CITIZEN_ID,TITLE,FIRST_NAME,LAST_NAME,SEX,BLOOD,BIRTH_DATE_START,BIRTH_DATE_END)
   .subscribe( data => {
     this.userDat = data;
-    })
+    this.dtTrigger.next();
+      })
+  
   }
 deleteuserdetails(id){
   this.dataService.removeEmployee(id)
