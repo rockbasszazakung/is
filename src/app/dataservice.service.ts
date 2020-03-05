@@ -40,7 +40,7 @@ public updateuserdetails(userMo:Usermodule) {
 }
 public searchAll(CITIZEN_ID:any,TITLE:any,FIRST_NAME:any,LAST_NAME:any,SEX:any,BLOOD:any,BIRTH_DATE_START:string,BIRTH_DATE_END:string):Observable<Usermodule> {
 
-    return this.httpClient.get<Usermodule>(this.baseUrl+'/searchAll.php?CITIZEN_ID='
+    return this.httpClient.get<Usermodule>(this.baseUrl+'/searchAll2.php?CITIZEN_ID='
     +CITIZEN_ID+'&TITLE='+TITLE+'&FIRST_NAME='+FIRST_NAME+'&LAST_NAME='+LAST_NAME+'&SEX='+SEX+'&BLOOD='+BLOOD+
     '&BIRTH_DATE_START='+BIRTH_DATE_START+'&BIRTH_DATE_END='+BIRTH_DATE_END);
   } 
