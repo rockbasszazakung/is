@@ -1,19 +1,19 @@
 import { Usermodule } from './../usermodule';
-import { Component, OnInit,OnDestroy,ViewChild} from '@angular/core';
+import { Component, OnInit,OnDestroy,ViewChild } from '@angular/core';
 import { DataserviceService } from '../dataservice.service';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { Response } from '@angular/http';
+
 import { DataTableDirective } from 'angular-datatables';
-// import { DataserviceService } from '../dataservice.service';
 import { FormControl, FormArray, FormGroup, FormBuilder } from '@angular/forms';
-import {NgbDate, NgbCalendar, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDate, NgbCalendar, NgbDateParserFormatter, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
+  providers: [ NgbModal]
   }
 )
 
@@ -31,6 +31,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   form: FormGroup;
   userDat: Usermodule;
   userMo: Usermodule;
+  but :boolean;
   data:number;
   BLOOD = [
     {id: 1, name: 'เอ'},
@@ -50,11 +51,14 @@ export class DashboardComponent implements OnDestroy, OnInit {
   hoveredDate: NgbDate;
   fromDate: NgbDate;
   toDate: NgbDate;
-  constructor(private fb: FormBuilder,private masterdataservice: DataserviceService,private dataService: DataserviceService,private router:Router, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
+  constructor(private modalService: NgbModal,private fb: FormBuilder,private masterdataservice: DataserviceService,private dataService: DataserviceService,private router:Router, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
     this.fromDate = undefined; 
     this.toDate = undefined;
     this.form = this.fb.group({checkArray: this.fb.array([],[])});
    }
+   open(content) {
+    this.modalService.open(content);
+  }
    onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
@@ -68,11 +72,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
   isHovered(date: NgbDate) {
     return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
   }
-
   isInside(date: NgbDate) {
     return date.after(this.fromDate) && date.before(this.toDate);
   }
-
   isRange(date: NgbDate) {
     return date.equals(this.fromDate) || date.equals(this.toDate) || this.isInside(date) || this.isHovered(date);
   }
@@ -88,7 +90,14 @@ export class DashboardComponent implements OnDestroy, OnInit {
   setdtOptions(){
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 10
+      pageLength: 10,
+      // ordering: true,
+      
+    columnDefs: [
+      {targets: [1], searchable: !1, orderable: !1},
+      {targets: [8], searchable: !1, orderable: !1},
+      {targets: [9], searchable: !1, orderable: !1}
+   ]
     };
   }
   ngOnDestroy(): void {
@@ -106,6 +115,7 @@ onCheckboxChange(e) {
   const checkArray: FormArray = this.form.get('checkArray') as FormArray;
   if (e.target.checked) {
     checkArray.push(new FormControl(e.target.value));
+    this.but = true;
   } else {
     let i: number = 0;
       checkArray.controls.forEach((item: FormControl) => {
@@ -114,17 +124,18 @@ onCheckboxChange(e) {
           return;
         }i++;
       });
+      this.but = false;
     }
   }
 clear(){
-  this.userMo.CITIZEN_ID = undefined;
-  this.userMo.FIRST_NAME = undefined;
-  this.userMo.LAST_NAME  = undefined;
-  this.userMo.SEX        = undefined;
-  this.userMo.BLOOD      = undefined;
-  this.userMo.TITLE      = undefined;
-  this.userMo.FromDate   = undefined;
-  this.userMo.ToDate     = undefined;
+  this.userMo.CITIZEN_ID = null;
+  this.userMo.FIRST_NAME = null;
+  this.userMo.LAST_NAME  = null;
+  this.userMo.SEX        = null;
+  this.userMo.BLOOD      = null;
+  this.userMo.TITLE      = null;
+  this.userMo.FromDate   = null;
+  this.userMo.ToDate     = null;
   }
 submitForm() {
   console.log(this.form.value)
@@ -141,8 +152,6 @@ ngdestroy(){
 }
 postdata()
   { 
-    
-    console.log(this.userMo)
     let CITIZEN_ID      :any = this.userMo.CITIZEN_ID; 
     let TITLE           :any = this.userMo.TITLE;
     let FIRST_NAME      :any = this.userMo.FIRST_NAME;
@@ -151,8 +160,38 @@ postdata()
     let BLOOD           :any = this.userMo.BLOOD;
     var BIRTH_DATE_START:string = this.userMo.FromDate;
     var BIRTH_DATE_END  :string = this.userMo.ToDate;
+    if(CITIZEN_ID == undefined){
+      CITIZEN_ID = null;
+    }else{
+      CITIZEN_ID = CITIZEN_ID;
+    }
+    if(TITLE == undefined){
+      TITLE = null;
+    }else{
+      TITLE = TITLE;
+    }
+    if(FIRST_NAME == undefined){
+      FIRST_NAME = null;
+    }else{
+      FIRST_NAME = FIRST_NAME;
+    }
+    if(LAST_NAME == undefined){
+      LAST_NAME = null;
+    }else{
+      LAST_NAME = LAST_NAME;
+    }
+    if(SEX == undefined){
+      SEX = null;
+    }else{
+      SEX = SEX;
+    }
+    if(BLOOD == undefined){
+      BLOOD = null;
+    }else{
+      BLOOD = BLOOD;
+    }
     if(BIRTH_DATE_START == undefined){
-      BIRTH_DATE_START = undefined;
+      BIRTH_DATE_START = null;
     }else{
       var BIRTH_DATE_START2 = new Date(BIRTH_DATE_START);
       let dayFromDate   = BIRTH_DATE_START2.getDate();
@@ -161,7 +200,7 @@ postdata()
       BIRTH_DATE_START  =  yearFromDate + '-' + monthFromDate + '-' +  dayFromDate;
     } 
     if(BIRTH_DATE_END == undefined){
-      BIRTH_DATE_END = undefined;
+      BIRTH_DATE_END = null;
     }else{
       var BIRTH_DATE_END2 = new Date(BIRTH_DATE_END);
       let dayToDate   = BIRTH_DATE_END2.getDate();
@@ -176,13 +215,11 @@ postdata()
     this.userDat = data;
     this.dtTrigger.next();
       })
-  
   }
 deleteuserdetails(id){
   this.dataService.removeEmployee(id)
   .subscribe( () => {
     this.userDat.id;
-    alert("ลบข้อมูลสำเร็จ");
     location.href = "http://localhost:4200/dashboard";
   })   
     }

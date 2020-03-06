@@ -5,7 +5,7 @@
       <br />
       <button class="btn btn-outline-info" (click)="addUser()">เพิ่มข้อมูล</button>
       <br />
-      <br />
+      <br /> 
       <!-- <div class="bs-example">
         <form>
           <div class="row">
@@ -181,7 +181,7 @@
         <div class="row">
           <div class="col-sm-4">
             <div class="input-group">
-              <button type="submit" value="Submit" (click)="postdata()" class="btn btn-outline-primary">ค้นหา</button>
+              <button type="submit" value="Submit" (click)="ngdestroy()" class="btn btn-outline-primary">ค้นหา</button>
             </div>
           </div>
           <div class="col-sm-4">
@@ -191,11 +191,28 @@
           </div>
           <div class="col-sm-4">
             <div class="input-group">
-              <button type="submit" value="Submit" (click)="submitForm()" class="btn btn-outline-danger">ลบ</button>
+              <ng-template #content let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-basic-title"></h4> 
+                  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <h5>คุณยืนยันการลบครั้งนี้ใช้หรือไม่</h5>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-primary" (click)="submitForm()">ตกลง</button>
+                  <button type="button" class="btn btn-outline-dark"(click)="d('Cross click')" >ยกเลิก</button>
+                </div>
+              </ng-template>
+              <button class="btn btn-outline-danger" (click)="open(content)" [disabled]="!but">ลบ</button>
+              <!-- <button type="submit" value="Submit" (click)="submitForm()" class="btn btn-outline-danger">ลบ</button> -->
             </div>
           </div>
         </div>
         <br />
+        <!-- datatable [dtOptions]="dtOptions"  [dtTrigger]="dtTrigger" -->
         <table id="table" datatable [dtOptions]="dtOptions"  [dtTrigger]="dtTrigger" class="table table-striped">
           <thead class="table-primary">
             <tr>
